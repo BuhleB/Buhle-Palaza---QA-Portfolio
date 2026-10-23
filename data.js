@@ -274,7 +274,7 @@ var EVIDENCE = {
 };
 var CASE_LINKS = {
   "makwande": {
-    "github": null,
+    "github": "https://github.com/IviweHlatana/Makwande_Platform",
     "live": "https://makwande-platform.onrender.com/"
   },
   "loomee": {
@@ -283,11 +283,35 @@ var CASE_LINKS = {
   },
   "qa": {
     "github": null,
-    "live": null
+    "live": null,
+    "repositories": [
+      {
+        "label": "ORANGEHRM SOURCE",
+        "url": "https://github.com/BuhleB/orangehrm-selenium-tests"
+      },
+      {
+        "label": "SAUCEDEMO SOURCE",
+        "url": "https://github.com/BuhleB/saucedemo-selenium-testng-framework"
+      },
+      {
+        "label": "MAKWANDE SOURCE",
+        "url": "https://github.com/IviweHlatana/Makwande_Platform"
+      }
+    ]
   },
   "automation": {
     "github": null,
-    "live": null
+    "live": null,
+    "repositories": [
+      {
+        "label": "ORANGEHRM SOURCE",
+        "url": "https://github.com/BuhleB/orangehrm-selenium-tests"
+      },
+      {
+        "label": "SAUCEDEMO SOURCE",
+        "url": "https://github.com/BuhleB/saucedemo-selenium-testng-framework"
+      }
+    ]
   }
 };
 var QA_LAB = {

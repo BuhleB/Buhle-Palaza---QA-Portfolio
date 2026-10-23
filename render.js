@@ -77,6 +77,9 @@
     if (!el || !links) return;
     var parts = [];
     if (links.github) parts.push('<a class="arrow" href="' + esc(links.github) + '">VIEW SOURCE →</a>');
+    (links.repositories || []).forEach(function (repo) {
+      parts.push('<a class="arrow" href="' + esc(repo.url) + '">' + esc(repo.label) + ' →</a>');
+    });
     if (links.live) parts.push('<a class="arrow" href="' + esc(links.live) + '">VIEW LIVE PROJECT →</a>');
     if (links.linkedin) parts.push('<a class="arrow" href="' + esc(links.linkedin) + '">VIEW EXPERIENCE →</a>');
     el.innerHTML = parts.length ? '<div class="cs-links">' + parts.join("") + '</div>' : "";
