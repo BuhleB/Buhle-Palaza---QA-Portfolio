@@ -1,0 +1,1319 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Makwande Careers - Backend Test Report</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap');
+:root{--bg:#0d0f14;--surface:#141720;--surface2:#1c2030;--border:#252a3a;--text:#e2e8f0;--muted:#64748b;--green:#22d3a0;--green-dim:#0d4a38;--red:#f43f5e;--red-dim:#4a0d1d;--blue:#38bdf8;--yellow:#fbbf24;--accent:#6366f1;--orange:#fb923c}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--text);padding:2rem}
+.header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2.5rem;padding-bottom:2rem;border-bottom:1px solid var(--border)}
+.label{font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem}
+h1{font-size:1.9rem;font-weight:700;letter-spacing:-.02em;line-height:1.2}
+h1 span{color:var(--green)}
+.meta{margin-top:.75rem;font-size:.82rem;color:var(--muted);font-family:'IBM Plex Mono',monospace;display:flex;gap:1.5rem;flex-wrap:wrap}
+.summary-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-bottom:2rem}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.25rem 1.5rem}
+.card-label{font-size:.7rem;font-family:'IBM Plex Mono',monospace;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem}
+.card-value{font-size:2.2rem;font-weight:700;font-family:'IBM Plex Mono',monospace;line-height:1}
+.card.total .card-value{color:var(--blue)}.card.passed .card-value{color:var(--green)}.card.failed .card-value{color:var(--red)}.card.rate .card-value{color:var(--yellow)}.card.timing .card-value{color:var(--orange)}
+.visual-row{display:grid;grid-template-columns:auto 1fr;gap:1.5rem;margin-bottom:2rem;align-items:center}
+.donut-wrap{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.5rem 2rem;display:flex;align-items:center;gap:1.5rem}
+.donut-legend{font-family:'IBM Plex Mono',monospace}
+.dl-item{display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem;font-size:.82rem}
+.dot{width:10px;height:10px;border-radius:50%}.dot.green{background:var(--green)}.dot.red{background:var(--red)}
+.section-bars{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.25rem 1.5rem}
+.sb-title{font-size:.7rem;font-family:'IBM Plex Mono',monospace;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem}
+.sb-row{margin-bottom:.75rem}.sb-row:last-child{margin-bottom:0}
+.sb-info{display:flex;justify-content:space-between;font-size:.78rem;margin-bottom:.25rem}
+.sb-count{font-family:'IBM Plex Mono',monospace;color:var(--muted)}
+.sb-track{height:6px;background:var(--surface2);border-radius:99px;overflow:hidden}
+.sb-fill{height:100%;border-radius:99px;background:var(--green)}.sb-fill.has-fail{background:var(--yellow)}.sb-fill.all-fail{background:var(--red)}
+.table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:2rem}
+.table-header{padding:1rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.table-header h2{font-size:.82rem;font-family:'IBM Plex Mono',monospace;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+.expand-hint{font-size:.65rem;font-family:'IBM Plex Mono',monospace;color:var(--muted);font-weight:400;margin-left:.75rem;letter-spacing:0}
+.filter-btns{display:flex;gap:.5rem;flex-wrap:wrap}
+.filter-btn{font-family:'IBM Plex Mono',monospace;font-size:.7rem;padding:.3rem .75rem;border-radius:99px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s}
+.filter-btn:hover,.filter-btn.active{border-color:var(--accent);color:var(--accent);background:rgba(99,102,241,.1)}
+.filter-btn.active-pass{border-color:var(--green);color:var(--green);background:rgba(34,211,160,.1)}
+.filter-btn.active-fail{border-color:var(--red);color:var(--red);background:rgba(244,63,94,.1)}
+table{width:100%;border-collapse:collapse;font-size:.83rem}
+thead th{padding:.7rem 1rem;text-align:left;font-size:.68rem;font-family:'IBM Plex Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:var(--surface2);border-bottom:1px solid var(--border);white-space:nowrap}
+tbody tr.main-row{border-bottom:1px solid var(--border);transition:background .1s}
+tbody tr.main-row:hover{background:rgba(99,102,241,.06)}
+tbody tr.main-row.expanded{background:rgba(99,102,241,.08)}
+tbody tr.detail-row{border-bottom:1px solid var(--border)}
+tbody tr.detail-row.hidden{display:none}
+tbody td{padding:.75rem 1rem;vertical-align:top;line-height:1.5}
+.section-cell{font-size:.72rem;font-family:'IBM Plex Mono',monospace;color:var(--muted);border-right:1px solid var(--border);white-space:nowrap;vertical-align:middle!important}
+.test-id{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--accent);white-space:nowrap}
+.srs-tag{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:.65rem;padding:.15rem .5rem;border-radius:4px;background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.2);color:var(--blue);white-space:nowrap}
+.status-badge{display:inline-flex;align-items:center;font-family:'IBM Plex Mono',monospace;font-size:.72rem;font-weight:600;padding:.25rem .6rem;border-radius:5px;white-space:nowrap}
+.status-badge.pass{background:var(--green-dim);color:var(--green);border:1px solid rgba(34,211,160,.2)}
+.status-badge.fail{background:var(--red-dim);color:var(--red);border:1px solid rgba(244,63,94,.2)}
+.duration-cell{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--orange);white-space:nowrap}
+.expected-cell{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--blue);max-width:160px;word-break:break-all}
+.notes-cell{font-size:.76rem;max-width:240px}
+.notes-text{color:var(--red)}
+.notes-empty{color:var(--muted)}
+.detail-box{background:var(--surface2);padding:1rem 1.5rem;border-left:3px solid var(--accent)}
+.detail-label{font-family:'IBM Plex Mono',monospace;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem}
+.detail-pre{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--text);white-space:pre-wrap;word-break:break-all;line-height:1.7;max-height:300px;overflow-y:auto}
+.manual-section{margin-bottom:2rem}
+.manual-section h2{font-size:.82rem;font-family:'IBM Plex Mono',monospace;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;padding:1rem 1.5rem;background:var(--surface);border:1px solid var(--border);border-radius:10px 10px 0 0;border-bottom:1px solid var(--border)}
+.manual-table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);border-radius:0 0 10px 10px;overflow:hidden}
+.manual-table th{padding:.6rem 1rem;text-align:left;font-size:.68rem;font-family:'IBM Plex Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:var(--surface2);border-bottom:1px solid var(--border)}
+.manual-table td{padding:.75rem 1rem;font-size:.8rem;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5}
+.manual-table tr:last-child td{border-bottom:none}
+.check-box{display:inline-block;width:16px;height:16px;border:2px solid var(--muted);border-radius:3px;cursor:pointer;vertical-align:middle;margin-right:.5rem;transition:all .15s}
+.check-box.checked{background:var(--green);border-color:var(--green)}
+.priority-must{color:var(--red);font-family:'IBM Plex Mono',monospace;font-size:.7rem;font-weight:600}
+.priority-should{color:var(--yellow);font-family:'IBM Plex Mono',monospace;font-size:.7rem;font-weight:600}
+.footer{text-align:center;font-size:.72rem;font-family:'IBM Plex Mono',monospace;color:var(--muted);padding-top:1.5rem;border-top:1px solid var(--border)}
+.footer span{color:var(--accent)}
+tr.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-left">
+    <div class="label">QA Report - Phase 1</div>
+    <h1>Makwande Careers<br><span>Backend Test Results</span></h1>
+    <div class="meta">
+      <span>2026-04-23 03:05:17</span>
+      <span>Buhle Palaza</span>
+      <span>30 automated tests</span>
+      <span>total time: 60.66s</span>
+    </div>
+  </div>
+</div>
+<div class="summary-grid">
+  <div class="card total">  <div class="card-label">Total Tests</div><div class="card-value">30</div></div>
+  <div class="card passed"> <div class="card-label">Passed</div>     <div class="card-value">30</div></div>
+  <div class="card failed"> <div class="card-label">Failed</div>     <div class="card-value">0</div></div>
+  <div class="card rate">   <div class="card-label">Pass Rate</div>  <div class="card-value">100%</div></div>
+  <div class="card timing"> <div class="card-label">Total Time</div> <div class="card-value">60.66s</div></div>
+</div>
+<div class="visual-row">
+  <div class="donut-wrap">
+    <svg width="90" height="90" viewBox="0 0 90 90">
+      <circle cx="45" cy="45" r="36" fill="none" stroke="#1c2030" stroke-width="10"/>
+      <circle cx="45" cy="45" r="36" fill="none" stroke="#f43f5e" stroke-width="10" stroke-dasharray="226" stroke-dashoffset="0" stroke-linecap="round" transform="rotate(-90 45 45)"/>
+      <circle cx="45" cy="45" r="36" fill="none" stroke="#22d3a0" stroke-width="10" stroke-dasharray="226" stroke-dashoffset="0" stroke-linecap="round" transform="rotate(-90 45 45)"/>
+      <text x="45" y="49" text-anchor="middle" fill="#e2e8f0" font-family="IBM Plex Mono" font-size="13" font-weight="600">100%</text>
+    </svg>
+    <div class="donut-legend">
+      <div class="dl-item"><div class="dot green"></div>30 Passed</div>
+      <div class="dl-item"><div class="dot red"></div>0 Failed</div>
+    </div>
+  </div>
+  <div class="section-bars">
+    <div class="sb-title">Results by Section</div>
+    <div id="section-bars-content"></div>
+  </div>
+</div>
+<div class="table-wrap">
+  <div class="table-header">
+    <h2>Automated Test Results <span class="expand-hint">&#9654; click any row to expand full response</span></h2>
+    <div class="filter-btns">
+      <button class="filter-btn active" onclick="filterTable('all',this)">All</button>
+      <button class="filter-btn" onclick="filterTable('pass',this)">Pass only</button>
+      <button class="filter-btn" onclick="filterTable('fail',this)">Fail only</button>
+    </div>
+  </div>
+  <div style="overflow-x:auto">
+    <table id="results-table">
+      <thead>
+        <tr>
+          <th>Section</th><th>Test ID</th><th>Description</th><th>SRS Ref</th>
+          <th>Status</th><th>Duration</th><th>Expected Fragment</th><th>Notes / Failure Reason</th>
+        </tr>
+      </thead>
+      <tbody><tr class='main-row' data-id='TEST01'><td class='section-cell' rowspan='1'>Server and Configuration</td><td class='test-id'>TEST-01</td><td>Homepage responds correctly</td><td><span class='srs-tag'>NFR-01</span></td><td><span class='status-badge pass'>PASS</span></td><td class='duration-cell'>0.014379s</td><td class='expected-cell'>Makwande Careers</td><td class='notes-cell'><span class='notes-empty'>&#8212;</span></td></tr>
+<tr class='detail-row hidden' id='detail-TEST01'><td colspan='8'><div class='detail-box'><div class='detail-label'>Full Response</div><pre class='detail-pre'>&lt;h1&gt;Makwande Careers backend is running.&lt;/h1&gt;</pre></div></td></tr>
+<tr class='main-row' data-id='TEST02'><td class='section-cell' rowspan='4'>Contact Form</td><td class='test-id'>TEST-02</td><td>Valid submission succeeds</td><td><span class='srs-tag'>FR-17, FR-19</span></td><td><span class='status-badge pass'>PASS</span></td><td class='duration-cell'>14.412346s</td><td class='expected-cell'>success</td><td class='notes-cell'><span class='notes-empty'>&#8212;</span></td></tr>
+<tr class='detail-row hidden' id='detail-TEST02'><td colspan='8'><div class='detail-box'><div class='detail-label'>Full Response</div><pre class='detail-pre'>{
+  &quot;message&quot;: &quot;Thank you, Buhle. Your message has been received. We will contact you within 2 business days.&quot;,
+  &quot;success&quot;: true
+}</pre></div></td></tr>
+<tr class='main-row' data-id='TEST03'><td class='test-id'>TEST-03</td><td>Missing full_name rejected</td><td><span class='srs-tag'>FR-18</span></td><td><span class='status-badge pass'>PASS</span></td><td class='duration-cell'>0.006793s</td><td class='expected-cell'>false</td><td class='notes-cell'><span class='notes-empty'>&#8212;</span></td></tr>
+<tr class='detail-row hidden' id='detail-TEST03'><td colspan='8'><div class='detail-box'><div class='detail-label'>Full Response</div><pre class='detail-pre'>{
+  &quot;errors&quot;: {
+    &quot;full_name&quot;: &quot;Full name is required.&quot;
+  },
+  &quot;success&quot;: false
+}</pre></div></td></tr>
+<tr class='main-row' data-id='TEST04'><td class='test-id'>TEST-04</td><td>Invalid email format rejected</td><td><span class='srs-tag'>FR-18</span></td><td><span class='status-badge pass'>PASS</span></td><td class='duration-cell'>0.006936s</td><td class='expected-cell'>valid email</td><td class='notes-cell'><span class='notes-empty'>&#8212;</span></td></tr>
+<tr class='detail-row hidden' id='detail-TEST04'><td colspan='8'><div class='detail-box'><div class='detail-label'>Full Response</div><pre class='detail-pre'>{
+  &quot;errors&quot;: {
+    &quot;email&quot;: &quot;Please enter a valid email address.&quot;
+  },
+  &quot;success&quot;: false
+}</pre></div></td></tr>
+<tr class='main-row' data-id='TEST05'><td class='test-id'>TEST-05</td><td>Message over 500 chars rejected</td><td><span class='srs-tag'>FR-18</span></td><td><span class='status-badge pass'>PASS</span></td><td class='duration-cell'>0.009892s</td><td class='expected-cell'>500 characters</td><td class='notes-cell'><span class='notes-empty'>&#8212;</span></td></tr>
+<tr class='detail-row hidden' id='detail-TEST05'><td colspan='8'><div class='detail-box'><div class='detail-label'>Full Response</div><pre class='detail-pre'>{
+  &quot;errors&quot;: {
+    &quot;message&quot;: &quot;Message must not exceed 500 characters.&quot;
+  },
+  &quot;success&quot;: false
+}</pre></div></td></tr>
+<tr class='main-row' data-id='TEST06'><td class='section-cell' rowspan='2'>Enquiry Form</td><td class='test-id'>TEST-06</td><td>Valid submission succeeds</td><td><span class='srs-tag'>FR-16, FR-19</span></td><td><span class='status-badge pass'>PASS</span></td><td class='duration-cell'>14.392951s</td><td class='expected-cell'>success</td><td class='notes-cell'><span class='notes-empty'>&#8212;</span></td></tr>
+<tr class='detail-row hidden' id='detail-TEST06'><td colspan='8'><div class='detail-box'><div class='detail-label'>Full Response</div><pre class='detail-pre'>{
+  &quot;message&quot;: &quot;Thank you, Buhle. Your enquiry has been received. We will contact you within 2 business days.&quot;,
+  &quot;success&quot;: true
+}</pre></div></td></tr>
+<tr class='main-row' data-id='TEST07'><td class='test-id'>TEST-07</td><td>Missing enquiry type rejected</td><td><span class='srs-tag'>FR-18</span></td><td><span class='status-badge pass'>PASS</span></td><td class='duration-cell'>0.013507s</td><td class='expected-cell'>false</td><td class='notes-cell'><span class='notes-empty'>&#8212;</span></td></tr>
+<tr class='detail-row hidden' id='detail-TEST07'><td colspan='8'><div class='detail-box'><div class='detail-label'>Full Response</div><pre class='detail-pre'>{
+  &quot;errors&quot;: {
+    &quot;enquiry_type&quot;: &quot;Please select an enquiry type.&quot;
+  },
+  &quot;success&quot;: false
+}</pre></div></td></tr>
+<tr class='main-row' data-id='TEST08'><td class='section-cell' rowspan='3'>Employer Form</td><td class='test-id'>TEST-08</td><td>Valid submission succeeds</td><td><span class='srs-tag'>FR-15, FR-19</span></td><td><span class='status-badge pass'>PASS</span></td><td class='duration-cell'>16.323627s</td><td class='expected-cell'>success</td><td class='notes-cell'><span class='notes-empty'>&#8212;</span></td></tr>
+<tr class='detail-row hidden' id='detail-TEST08'><td colspan='8'><div class='detail-box'><div class='detail-label'>Full Response</div><pre class='detail-pre'>{
+  &quot;message&quot;: &quot;Thank you, Makwande. Your hiring request has been received. We will contact you within 2 business days.&quot;,
+  &quot;success&quot;: true
+}</pre></div></td></tr>
+<tr class='main-row' data-id='TEST09'><td class='test-id'>TEST-09</td><td>Missing required fields rejected</td><td><span class='srs-tag'>FR-18</span></td><td><span class='status-badge pass'>PASS</span></td><td class='duration-cell'>0.061647s</td><td class='expected-cell'>false</td><td class='notes-cell'><span class='notes-empty'>&#8212;</span></td></tr>
+<tr class='detail-row hidden' id='detail-TEST09'><td colspan='8'><div class='detail-box'><div class='detail-label'>Full Response</div><pre class='detail-pre'>{
+  &quot;errors&quot;: {
+    &quot;company_name&quot;: &quot;Company name is required.&quot;,
+    &quot;contact_name&quot;: &quot;Contact person name is required.&quot;,
+    &quot;employment_type&quot;: &quot;Please select an employment type.&quot;,
+    &quot;role_to_fill&quot;: &quot;Role to fill is required.&quot;
+  },
+  &quot;success&quot;: false
+}</pre></div></td></tr>
+<tr class='main-row' data-id='TEST10'><td class='test-id'>TEST-10</td><td>Non-numeric positions rejected</td><td><span class='srs-tag'>FR-18</span></td><td><span class='status-badge pass'>PASS</span></td><td class='duration-cell'>0.009177s</td><td class='expected-cell'>whole number</td><td class='notes-cell'><span class='notes-empty'>&#8212;</span></td></tr>
+<tr class='detail-row hidden' id='detail-TEST10'><td colspan='8'><div class='detail-box'><div class='detail-label'>Full Response</div><pre class='detail-pre'>{
+  &quot;errors&quot;: {
+    &quot;num_positions&quot;: &quot;Number of positions must be a whole number.&quot;
+  },
+  &quot;success&quot;: false
+}</pre></div></td></tr>
+<tr class='main-row' data-id='TEST11'><td class='section-cell' rowspan='5'>CV File Upload</td><td class='test-id'>TEST-11</td><td>No file attached rejected</td><td><span class='srs-tag'>FR-20</span></td><td><span class='status-badge pass'>PASS</span></td><td class='duration-cell'>0.025970s</td><td class='expected-cell'>attach your CV</td><td class='notes-cell'><span class='notes-empty'>&#8212;</span></td></tr>
+<tr class='detail-row hidden' id='detail-TEST11'><td colspan='8'><div class='detail-box'><div class='detail-label'>Full Response</div><pre class='detail-pre'>{
+  &quot;errors&quot;: {
+    &quot;cv_file&quot;: &quot;Please attach your CV (PDF or DOCX).&quot;
+  },
+  &quot;success&quot;: false
+}</pre></div></td></tr>
+<tr class='main-row' data-id='TEST12'><td class='test-id'>TEST-12</td><td>Wrong file type (.exe) rejected</td><td><span class='srs-tag'>FR-20, NFR-09</span></td><td><span class='status-badge pass'>PASS</span></td><td class='duration-cell'>0.422052s</td><td class='expected-cell'>Invalid file type</td><td class='notes-cell'><span class='notes-empty'>&#8212;</span></td></tr>
+<tr class='detail-row hidden' id='detail-TEST12'><td colspan='8'><div class='detail-box'><div class='detail-label'>Full Response</div><pre class='detail-pre'>{
+  &quot;errors&quot;: {
+    &quot;cv_file&quot;: &quot;Invalid file type. Please upload a PDF or DOCX file only.&quot;
+  },
+  &quot;success&quot;: false
+}</pre></div></td></tr>
+<tr class='main-row' data-id='TEST13'><td class='test-id'>TEST-13</td><td>Valid PDF accepted</td><td><span class='srs-tag'>FR-20, FR-22</span></td><td><span class='status-badge pass'>PASS</span></td><td class='duration-cell'>13.742181s</td><td class='expected-cell'>success</td><td class='notes-cell'><span class='notes-empty'>&#8212;</span></td></tr>
+<tr class='detail-row hidden' id='detail-TEST13'><td colspan='8'><div class='detail-box'><div class='detail-label'>Full Response</div><pre class='detail-pre'>{
+  &quot;message&quot;: &quot;Thank you, Buhle. Your submission has been received. We will contact you within 2 business days.&quot;,
+  &quot;success&quot;: true
+}</pre></div></td></tr>
+<tr class='main-row' data-id='TEST14'><td class='test-id'>TEST-14</td><td>Uploaded file not publicly accessible</td><td><span class='srs-tag'>FR-23</span></td><td><span class='status-badge pass'>PASS</span></td><td class='duration-cell'>0.007864s</td><td class='expected-cell'>404</td><td class='notes-cell'><span class='notes-empty'>&#8212;</span></td></tr>
+<tr class='detail-row hidden' id='detail-TEST14'><td colspan='8'><div class='detail-box'><div class='detail-label'>Full Response</div><pre class='detail-pre'>404</pre></div></td></tr>
+<tr class='main-row' data-id='TEST22'><td class='test-id'>TEST-22</td><td>File over 5MB rejected</td><td><span class='srs-tag'>FR-21</span></td><td><span class='status-badge pass'>PASS</span></td><td class='duration-cell'>0.028921s</td><td class='expected-cell'>5MB limit</td><td class='notes-cell'><span class='notes-text'>FR-21: Server must reject uploads larger than 5MB with a clear error message.</span></td></tr>
+<tr class='detail-row hidden' id='detail-TEST22'><td colspan='8'><div class='detail-box'><div class='detail-label'>Full Response</div><pre class='detail-pre'>{
+  &quot;errors&quot;: {
+    &quot;cv_file&quot;: &quot;File exceeds the 5MB limit. Please upload a smaller file.&quot;
+  },
+  &quot;success&quot;: false
+}</pre></div></td></tr>
+<tr class='main-row' data-id='TEST15'><td class='section-cell' rowspan='5'>Admin Authentication</td><td class='test-id'>TEST-15</td><td>Dashboard blocked without login</td><td><span class='srs-tag'>FR-24</span></td><td><span class='status-badge pass'>PASS</span></td><td class='duration-cell'>0.007126s</td><td class='expected-cell'>302</td><td class='notes-cell'><span class='notes-empty'>&#8212;</span></td></tr>
+<tr class='detail-row hidden' id='detail-TEST15'><td colspan='8'><div class='detail-box'><div class='detail-label'>Full Response</div><pre class='detail-pre'>302</pre></div></td></tr>
+<tr class='main-row' data-id='TEST16'><td class='test-id'>TEST-16</td><td>Wrong password denied</td><td><span class='srs-tag'>FR-24</span></td><td><span class='status-badge pass'>PASS</span></td><td class='duration-cell'>0.471599s</td><td class='expected-cell'>Invalid</td><td class='notes-cell'><span class='notes-empty'>&#8212;</span></td></tr>
+<tr class='detail-row hidden' id='detail-TEST16'><td colspan='8'><div class='detail-box'><div class='detail-label'>Full Response</div><pre class='detail-pre'>{
+  &quot;error&quot;: &quot;Invalid username or password.&quot;,
+  &quot;success&quot;: false
+}</pre></div></td></tr>
+<tr class='main-row' data-id='TEST17'><td class='test-id'>TEST-17</td><td>Correct credentials grant access</td><td><span class='srs-tag'>FR-24</span></td><td><span class='status-badge pass'>PASS</span></td><td class='duration-cell'>0.465471s</td><td class='expected-cell'>Welcome</td><td class='notes-cell'><span class='notes-empty'>&#8212;</span></td></tr>
+<tr class='detail-row hidden' id='detail-TEST17'><td colspan='8'><div class='detail-box'><div class='detail-label'>Full Response</div><pre class='detail-pre'>{
+  &quot;message&quot;: &quot;Welcome back, Buhlebendalo.&quot;,
+  &quot;success&quot;: true,
+  &quot;username&quot;: &quot;Buhlebendalo&quot;
+}</pre></div></td></tr>
+<tr class='main-row' data-id='TEST18'><td class='test-id'>TEST-18</td><td>Session cookie allows dashboard access</td><td><span class='srs-tag'>FR-24, FR-34</span></td><td><span class='status-badge pass'>PASS</span></td><td class='duration-cell'>0.060465s</td><td class='expected-cell'>counts_by_type</td><td class='notes-cell'><span class='notes-empty'>&#8212;</span></td></tr>
+<tr class='detail-row hidden' id='detail-TEST18'><td colspan='8'><div class='detail-box'><div class='detail-label'>Full Response</div><pre class='detail-pre'>{
+  &quot;counts_by_status&quot;: {
+    &quot;Closed&quot;: 0,
+    &quot;Contacted&quot;: 1,
+    &quot;Escalated&quot;: 0,
+    &quot;In Progress&quot;: 0,
+    &quot;New&quot;: 32
+  },
+  &quot;counts_by_type&quot;: {
+    &quot;contacts&quot;: 11,
+    &quot;employers&quot;: 8,
+    &quot;enquiries&quot;: 8,
+    &quot;jobseekers&quot;: 6,
+    &quot;total&quot;: 33
+  },
+  &quot;success&quot;: true
+}</pre></div></td></tr>
+<tr class='main-row' data-id='TEST19'><td class='test-id'>TEST-19</td><td>Logout clears session</td><td><span class='srs-tag'>FR-25</span></td><td><span class='status-badge pass'>PASS</span></td><td class='duration-cell'>0.045734s</td><td class='expected-cell'>logged out</td><td class='notes-cell'><span class='notes-empty'>&#8212;</span></td></tr>
+<tr class='detail-row hidden' id='detail-TEST19'><td colspan='8'><div class='detail-box'><div class='detail-label'>Full Response</div><pre class='detail-pre'>{
+  &quot;message&quot;: &quot;Goodbye, Buhlebendalo. You have been logged out.&quot;,
+  &quot;success&quot;: true
+}</pre></div></td></tr>
+<tr class='main-row' data-id='TEST23'><td class='section-cell' rowspan='8'>Admin Dashboard</td><td class='test-id'>TEST-23</td><td>Submissions list returns paginated results</td><td><span class='srs-tag'>FR-26</span></td><td><span class='status-badge pass'>PASS</span></td><td class='duration-cell'>0.014192s</td><td class='expected-cell'>submissions</td><td class='notes-cell'><span class='notes-empty'>&#8212;</span></td></tr>
+<tr class='detail-row hidden' id='detail-TEST23'><td colspan='8'><div class='detail-box'><div class='detail-label'>Full Response</div><pre class='detail-pre'>{
+  &quot;page&quot;: 1,
+  &quot;per_page&quot;: 20,
+  &quot;submissions&quot;: [
+    {
+      &quot;cv_filename&quot;: &quot;f51ecf9161c64ae8bbcdf8758117ee6e_test_cv.pdf&quot;,
+      &quot;cv_original_name&quot;: &quot;test_cv.pdf&quot;,
+      &quot;email&quot;: &quot;b@test.com&quot;,
+      &quot;form_type&quot;: &quot;jobseeker&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: true,
+      &quot;id&quot;: 6,
+      &quot;location&quot;: &quot;PE&quot;,
+      &quot;message&quot;: null,
+      &quot;phone&quot;: &quot;0821234567&quot;,
+      &quot;service_interest&quot;: &quot;CVReview&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T01:05:00.338833&quot;
+    },
+    {
+      &quot;company_name&quot;: &quot;MakwandeGroup&quot;,
+      &quot;contact_name&quot;: &quot;Makwande&quot;,
+      &quot;deadline_date&quot;: null,
+      &quot;email&quot;: &quot;m@test.com&quot;,
+      &quot;employment_type&quot;: &quot;Permanent&quot;,
+      &quot;form_type&quot;: &quot;employer&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 8,
+      &quot;num_positions&quot;: null,
+      &quot;phone&quot;: &quot;0821234567&quot;,
+      &quot;requirements&quot;: &quot;3years&quot;,
+      &quot;role_to_fill&quot;: &quot;Developer&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T01:04:38.853892&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;enquiry_type&quot;: &quot;General&quot;,
+      &quot;form_type&quot;: &quot;enquiry&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 8,
+      &quot;message&quot;: &quot;Test&quot;,
+      &quot;phone&quot;: null,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T01:04:23.726322&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;form_type&quot;: &quot;contact&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 11,
+      &quot;message&quot;: &quot;Hello&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;subject&quot;: &quot;Test&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T01:04:07.351625&quot;
+    },
+    {
+      &quot;cv_filename&quot;: &quot;7388520246e34bfbaf94a6f583af1820_test_cv.pdf&quot;,
+      &quot;cv_original_name&quot;: &quot;test_cv.pdf&quot;,
+      &quot;email&quot;: &quot;b@test.com&quot;,
+      &quot;form_type&quot;: &quot;jobseeker&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: true,
+      &quot;id&quot;: 5,
+      &quot;location&quot;: &quot;PE&quot;,
+      &quot;message&quot;: null,
+      &quot;phone&quot;: &quot;0821234567&quot;,
+      &quot;service_interest&quot;: &quot;CVReview&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:41:34.891227&quot;
+    },
+    {
+      &quot;company_name&quot;: &quot;MakwandeGroup&quot;,
+      &quot;contact_name&quot;: &quot;Makwande&quot;,
+      &quot;deadline_date&quot;: null,
+      &quot;email&quot;: &quot;m@test.com&quot;,
+      &quot;employment_type&quot;: &quot;Permanent&quot;,
+      &quot;form_type&quot;: &quot;employer&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 7,
+      &quot;num_positions&quot;: null,
+      &quot;phone&quot;: &quot;0821234567&quot;,
+      &quot;requirements&quot;: &quot;3years&quot;,
+      &quot;role_to_fill&quot;: &quot;Developer&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:41:18.596516&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;enquiry_type&quot;: &quot;General&quot;,
+      &quot;form_type&quot;: &quot;enquiry&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 7,
+      &quot;message&quot;: &quot;Test&quot;,
+      &quot;phone&quot;: null,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:41:10.667468&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;form_type&quot;: &quot;contact&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 10,
+      &quot;message&quot;: &quot;Hello&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;subject&quot;: &quot;Test&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:40:53.219866&quot;
+    },
+    {
+      &quot;cv_filename&quot;: &quot;95ae3168a77b4fc6a9e6ef6c9b6498f4_test_cv.pdf&quot;,
+      &quot;cv_original_name&quot;: &quot;test_cv.pdf&quot;,
+      &quot;email&quot;: &quot;b@test.com&quot;,
+      &quot;form_type&quot;: &quot;jobseeker&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: true,
+      &quot;id&quot;: 4,
+      &quot;location&quot;: &quot;PE&quot;,
+      &quot;message&quot;: null,
+      &quot;phone&quot;: &quot;0821234567&quot;,
+      &quot;service_interest&quot;: &quot;CVReview&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:19:47.336077&quot;
+    },
+    {
+      &quot;company_name&quot;: &quot;MakwandeGroup&quot;,
+      &quot;contact_name&quot;: &quot;Makwande&quot;,
+      &quot;deadline_date&quot;: null,
+      &quot;email&quot;: &quot;m@test.com&quot;,
+      &quot;employment_type&quot;: &quot;Permanent&quot;,
+      &quot;form_type&quot;: &quot;employer&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 6,
+      &quot;num_positions&quot;: null,
+      &quot;phone&quot;: &quot;0821234567&quot;,
+      &quot;requirements&quot;: &quot;3years&quot;,
+      &quot;role_to_fill&quot;: &quot;Developer&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:19:29.391095&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;enquiry_type&quot;: &quot;General&quot;,
+      &quot;form_type&quot;: &quot;enquiry&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 6,
+      &quot;message&quot;: &quot;Test&quot;,
+      &quot;phone&quot;: null,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:19:13.466990&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;form_type&quot;: &quot;contact&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 9,
+      &quot;message&quot;: &quot;Hello&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;subject&quot;: &quot;Test&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:18:54.466916&quot;
+    },
+    {
+      &quot;cv_filename&quot;: &quot;9ff14a4cba7d4ccf98de30d8f605b05f_test_cv.pdf&quot;,
+      &quot;cv_original_name&quot;: &quot;test_cv.pdf&quot;,
+      &quot;email&quot;: &quot;b@test.com&quot;,
+      &quot;form_type&quot;: &quot;jobseeker&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: true,
+      &quot;id&quot;: 3,
+      &quot;location&quot;: &quot;PE&quot;,
+      &quot;message&quot;: null,
+      &quot;phone&quot;: &quot;0821234567&quot;,
+      &quot;service_interest&quot;: &quot;CVReview&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:14:20.682444&quot;
+    },
+    {
+      &quot;company_name&quot;: &quot;MakwandeGroup&quot;,
+      &quot;contact_name&quot;: &quot;Makwande&quot;,
+      &quot;deadline_date&quot;: null,
+      &quot;email&quot;: &quot;m@test.com&quot;,
+      &quot;employment_type&quot;: &quot;Permanent&quot;,
+      &quot;form_type&quot;: &quot;employer&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 5,
+      &quot;num_positions&quot;: null,
+      &quot;phone&quot;: &quot;0821234567&quot;,
+      &quot;requirements&quot;: &quot;3years&quot;,
+      &quot;role_to_fill&quot;: &quot;Developer&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:14:03.397028&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;enquiry_type&quot;: &quot;General&quot;,
+      &quot;form_type&quot;: &quot;enquiry&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 5,
+      &quot;message&quot;: &quot;Test&quot;,
+      &quot;phone&quot;: null,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:13:48.594543&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;form_type&quot;: &quot;contact&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 8,
+      &quot;message&quot;: &quot;Hello&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;subject&quot;: &quot;Test&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:13:27.307810&quot;
+    },
+    {
+      &quot;company_name&quot;: &quot;MakwandeGroup&quot;,
+      &quot;contact_name&quot;: &quot;Makwande&quot;,
+      &quot;deadline_date&quot;: null,
+      &quot;email&quot;: &quot;m@test.com&quot;,
+      &quot;employment_type&quot;: &quot;Permanent&quot;,
+      &quot;form_type&quot;: &quot;employer&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 4,
+      &quot;num_positions&quot;: null,
+      &quot;phone&quot;: &quot;0821234567&quot;,
+      &quot;requirements&quot;: &quot;3years&quot;,
+      &quot;role_to_fill&quot;: &quot;Developer&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-22T19:16:48.356443&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;enquiry_type&quot;: &quot;General&quot;,
+      &quot;form_type&quot;: &quot;enquiry&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 4,
+      &quot;message&quot;: &quot;Test&quot;,
+      &quot;phone&quot;: null,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-22T19:16:29.980353&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;form_type&quot;: &quot;contact&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 7,
+      &quot;message&quot;: &quot;Hello&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;subject&quot;: &quot;Test&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-22T19:16:12.283103&quot;
+    },
+    {
+      &quot;company_name&quot;: &quot;MakwandeGroup&quot;,
+      &quot;contact_name&quot;: &quot;Makwande&quot;,
+      &quot;deadline_date&quot;: null,
+      &quot;email&quot;: &quot;m@test.com&quot;,
+      &quot;employment_type&quot;: &quot;Permanent&quot;,
+      &quot;form_type&quot;: &quot;employer&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 3,
+      &quot;num_positions&quot;: null,
+      &quot;phone&quot;: &quot;0821234567&quot;,
+      &quot;requirements&quot;: &quot;3years&quot;,
+      &quot;role_to_fill&quot;: &quot;Developer&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-22T19:13:47.128882&quot;
+    }
+  ],
+  &quot;success&quot;: true,
+  &quot;total&quot;: 33,
+  &quot;total_pages&quot;: 2
+}</pre></div></td></tr>
+<tr class='main-row' data-id='TEST24'><td class='test-id'>TEST-24</td><td>Filter by form type (jobseeker)</td><td><span class='srs-tag'>FR-27</span></td><td><span class='status-badge pass'>PASS</span></td><td class='duration-cell'>0.011511s</td><td class='expected-cell'>success</td><td class='notes-cell'><span class='notes-empty'>&#8212;</span></td></tr>
+<tr class='detail-row hidden' id='detail-TEST24'><td colspan='8'><div class='detail-box'><div class='detail-label'>Full Response</div><pre class='detail-pre'>{
+  &quot;page&quot;: 1,
+  &quot;per_page&quot;: 20,
+  &quot;submissions&quot;: [
+    {
+      &quot;cv_filename&quot;: &quot;f51ecf9161c64ae8bbcdf8758117ee6e_test_cv.pdf&quot;,
+      &quot;cv_original_name&quot;: &quot;test_cv.pdf&quot;,
+      &quot;email&quot;: &quot;b@test.com&quot;,
+      &quot;form_type&quot;: &quot;jobseeker&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: true,
+      &quot;id&quot;: 6,
+      &quot;location&quot;: &quot;PE&quot;,
+      &quot;message&quot;: null,
+      &quot;phone&quot;: &quot;0821234567&quot;,
+      &quot;service_interest&quot;: &quot;CVReview&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T01:05:00.338833&quot;
+    },
+    {
+      &quot;cv_filename&quot;: &quot;7388520246e34bfbaf94a6f583af1820_test_cv.pdf&quot;,
+      &quot;cv_original_name&quot;: &quot;test_cv.pdf&quot;,
+      &quot;email&quot;: &quot;b@test.com&quot;,
+      &quot;form_type&quot;: &quot;jobseeker&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: true,
+      &quot;id&quot;: 5,
+      &quot;location&quot;: &quot;PE&quot;,
+      &quot;message&quot;: null,
+      &quot;phone&quot;: &quot;0821234567&quot;,
+      &quot;service_interest&quot;: &quot;CVReview&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:41:34.891227&quot;
+    },
+    {
+      &quot;cv_filename&quot;: &quot;95ae3168a77b4fc6a9e6ef6c9b6498f4_test_cv.pdf&quot;,
+      &quot;cv_original_name&quot;: &quot;test_cv.pdf&quot;,
+      &quot;email&quot;: &quot;b@test.com&quot;,
+      &quot;form_type&quot;: &quot;jobseeker&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: true,
+      &quot;id&quot;: 4,
+      &quot;location&quot;: &quot;PE&quot;,
+      &quot;message&quot;: null,
+      &quot;phone&quot;: &quot;0821234567&quot;,
+      &quot;service_interest&quot;: &quot;CVReview&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:19:47.336077&quot;
+    },
+    {
+      &quot;cv_filename&quot;: &quot;9ff14a4cba7d4ccf98de30d8f605b05f_test_cv.pdf&quot;,
+      &quot;cv_original_name&quot;: &quot;test_cv.pdf&quot;,
+      &quot;email&quot;: &quot;b@test.com&quot;,
+      &quot;form_type&quot;: &quot;jobseeker&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: true,
+      &quot;id&quot;: 3,
+      &quot;location&quot;: &quot;PE&quot;,
+      &quot;message&quot;: null,
+      &quot;phone&quot;: &quot;0821234567&quot;,
+      &quot;service_interest&quot;: &quot;CVReview&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:14:20.682444&quot;
+    },
+    {
+      &quot;cv_filename&quot;: &quot;21a2097b751345349f2fad4310a3771c_test_cv.pdf&quot;,
+      &quot;cv_original_name&quot;: &quot;test_cv.pdf&quot;,
+      &quot;email&quot;: &quot;buhle@example.com&quot;,
+      &quot;form_type&quot;: &quot;jobseeker&quot;,
+      &quot;full_name&quot;: &quot;Buhle Zulu&quot;,
+      &quot;has_cv&quot;: true,
+      &quot;id&quot;: 2,
+      &quot;location&quot;: &quot;Cape Town&quot;,
+      &quot;message&quot;: &quot;Please review my CV&quot;,
+      &quot;phone&quot;: &quot;0831234567&quot;,
+      &quot;service_interest&quot;: &quot;CV Review&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-22T09:32:15.615934&quot;
+    },
+    {
+      &quot;cv_filename&quot;: &quot;d8a4c36e3df8445e932f14a7d8431c12_test_cv.pdf&quot;,
+      &quot;cv_original_name&quot;: &quot;test_cv.pdf&quot;,
+      &quot;email&quot;: &quot;buhle@example.com&quot;,
+      &quot;form_type&quot;: &quot;jobseeker&quot;,
+      &quot;full_name&quot;: &quot;Buhle Zulu&quot;,
+      &quot;has_cv&quot;: true,
+      &quot;id&quot;: 1,
+      &quot;location&quot;: &quot;Cape Town&quot;,
+      &quot;message&quot;: &quot;Please review my CV&quot;,
+      &quot;phone&quot;: &quot;0831234567&quot;,
+      &quot;service_interest&quot;: &quot;CV Review&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-22T09:27:34.333690&quot;
+    }
+  ],
+  &quot;success&quot;: true,
+  &quot;total&quot;: 6,
+  &quot;total_pages&quot;: 1
+}</pre></div></td></tr>
+<tr class='main-row' data-id='TEST25'><td class='test-id'>TEST-25</td><td>Filter by status (New)</td><td><span class='srs-tag'>FR-28</span></td><td><span class='status-badge pass'>PASS</span></td><td class='duration-cell'>0.016514s</td><td class='expected-cell'>success</td><td class='notes-cell'><span class='notes-empty'>&#8212;</span></td></tr>
+<tr class='detail-row hidden' id='detail-TEST25'><td colspan='8'><div class='detail-box'><div class='detail-label'>Full Response</div><pre class='detail-pre'>{
+  &quot;page&quot;: 1,
+  &quot;per_page&quot;: 20,
+  &quot;submissions&quot;: [
+    {
+      &quot;cv_filename&quot;: &quot;f51ecf9161c64ae8bbcdf8758117ee6e_test_cv.pdf&quot;,
+      &quot;cv_original_name&quot;: &quot;test_cv.pdf&quot;,
+      &quot;email&quot;: &quot;b@test.com&quot;,
+      &quot;form_type&quot;: &quot;jobseeker&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: true,
+      &quot;id&quot;: 6,
+      &quot;location&quot;: &quot;PE&quot;,
+      &quot;message&quot;: null,
+      &quot;phone&quot;: &quot;0821234567&quot;,
+      &quot;service_interest&quot;: &quot;CVReview&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T01:05:00.338833&quot;
+    },
+    {
+      &quot;company_name&quot;: &quot;MakwandeGroup&quot;,
+      &quot;contact_name&quot;: &quot;Makwande&quot;,
+      &quot;deadline_date&quot;: null,
+      &quot;email&quot;: &quot;m@test.com&quot;,
+      &quot;employment_type&quot;: &quot;Permanent&quot;,
+      &quot;form_type&quot;: &quot;employer&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 8,
+      &quot;num_positions&quot;: null,
+      &quot;phone&quot;: &quot;0821234567&quot;,
+      &quot;requirements&quot;: &quot;3years&quot;,
+      &quot;role_to_fill&quot;: &quot;Developer&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T01:04:38.853892&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;enquiry_type&quot;: &quot;General&quot;,
+      &quot;form_type&quot;: &quot;enquiry&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 8,
+      &quot;message&quot;: &quot;Test&quot;,
+      &quot;phone&quot;: null,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T01:04:23.726322&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;form_type&quot;: &quot;contact&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 11,
+      &quot;message&quot;: &quot;Hello&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;subject&quot;: &quot;Test&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T01:04:07.351625&quot;
+    },
+    {
+      &quot;cv_filename&quot;: &quot;7388520246e34bfbaf94a6f583af1820_test_cv.pdf&quot;,
+      &quot;cv_original_name&quot;: &quot;test_cv.pdf&quot;,
+      &quot;email&quot;: &quot;b@test.com&quot;,
+      &quot;form_type&quot;: &quot;jobseeker&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: true,
+      &quot;id&quot;: 5,
+      &quot;location&quot;: &quot;PE&quot;,
+      &quot;message&quot;: null,
+      &quot;phone&quot;: &quot;0821234567&quot;,
+      &quot;service_interest&quot;: &quot;CVReview&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:41:34.891227&quot;
+    },
+    {
+      &quot;company_name&quot;: &quot;MakwandeGroup&quot;,
+      &quot;contact_name&quot;: &quot;Makwande&quot;,
+      &quot;deadline_date&quot;: null,
+      &quot;email&quot;: &quot;m@test.com&quot;,
+      &quot;employment_type&quot;: &quot;Permanent&quot;,
+      &quot;form_type&quot;: &quot;employer&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 7,
+      &quot;num_positions&quot;: null,
+      &quot;phone&quot;: &quot;0821234567&quot;,
+      &quot;requirements&quot;: &quot;3years&quot;,
+      &quot;role_to_fill&quot;: &quot;Developer&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:41:18.596516&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;enquiry_type&quot;: &quot;General&quot;,
+      &quot;form_type&quot;: &quot;enquiry&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 7,
+      &quot;message&quot;: &quot;Test&quot;,
+      &quot;phone&quot;: null,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:41:10.667468&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;form_type&quot;: &quot;contact&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 10,
+      &quot;message&quot;: &quot;Hello&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;subject&quot;: &quot;Test&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:40:53.219866&quot;
+    },
+    {
+      &quot;cv_filename&quot;: &quot;95ae3168a77b4fc6a9e6ef6c9b6498f4_test_cv.pdf&quot;,
+      &quot;cv_original_name&quot;: &quot;test_cv.pdf&quot;,
+      &quot;email&quot;: &quot;b@test.com&quot;,
+      &quot;form_type&quot;: &quot;jobseeker&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: true,
+      &quot;id&quot;: 4,
+      &quot;location&quot;: &quot;PE&quot;,
+      &quot;message&quot;: null,
+      &quot;phone&quot;: &quot;0821234567&quot;,
+      &quot;service_interest&quot;: &quot;CVReview&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:19:47.336077&quot;
+    },
+    {
+      &quot;company_name&quot;: &quot;MakwandeGroup&quot;,
+      &quot;contact_name&quot;: &quot;Makwande&quot;,
+      &quot;deadline_date&quot;: null,
+      &quot;email&quot;: &quot;m@test.com&quot;,
+      &quot;employment_type&quot;: &quot;Permanent&quot;,
+      &quot;form_type&quot;: &quot;employer&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 6,
+      &quot;num_positions&quot;: null,
+      &quot;phone&quot;: &quot;0821234567&quot;,
+      &quot;requirements&quot;: &quot;3years&quot;,
+      &quot;role_to_fill&quot;: &quot;Developer&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:19:29.391095&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;enquiry_type&quot;: &quot;General&quot;,
+      &quot;form_type&quot;: &quot;enquiry&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 6,
+      &quot;message&quot;: &quot;Test&quot;,
+      &quot;phone&quot;: null,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:19:13.466990&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;form_type&quot;: &quot;contact&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 9,
+      &quot;message&quot;: &quot;Hello&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;subject&quot;: &quot;Test&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:18:54.466916&quot;
+    },
+    {
+      &quot;cv_filename&quot;: &quot;9ff14a4cba7d4ccf98de30d8f605b05f_test_cv.pdf&quot;,
+      &quot;cv_original_name&quot;: &quot;test_cv.pdf&quot;,
+      &quot;email&quot;: &quot;b@test.com&quot;,
+      &quot;form_type&quot;: &quot;jobseeker&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: true,
+      &quot;id&quot;: 3,
+      &quot;location&quot;: &quot;PE&quot;,
+      &quot;message&quot;: null,
+      &quot;phone&quot;: &quot;0821234567&quot;,
+      &quot;service_interest&quot;: &quot;CVReview&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:14:20.682444&quot;
+    },
+    {
+      &quot;company_name&quot;: &quot;MakwandeGroup&quot;,
+      &quot;contact_name&quot;: &quot;Makwande&quot;,
+      &quot;deadline_date&quot;: null,
+      &quot;email&quot;: &quot;m@test.com&quot;,
+      &quot;employment_type&quot;: &quot;Permanent&quot;,
+      &quot;form_type&quot;: &quot;employer&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 5,
+      &quot;num_positions&quot;: null,
+      &quot;phone&quot;: &quot;0821234567&quot;,
+      &quot;requirements&quot;: &quot;3years&quot;,
+      &quot;role_to_fill&quot;: &quot;Developer&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:14:03.397028&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;enquiry_type&quot;: &quot;General&quot;,
+      &quot;form_type&quot;: &quot;enquiry&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 5,
+      &quot;message&quot;: &quot;Test&quot;,
+      &quot;phone&quot;: null,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:13:48.594543&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;form_type&quot;: &quot;contact&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 8,
+      &quot;message&quot;: &quot;Hello&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;subject&quot;: &quot;Test&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:13:27.307810&quot;
+    },
+    {
+      &quot;company_name&quot;: &quot;MakwandeGroup&quot;,
+      &quot;contact_name&quot;: &quot;Makwande&quot;,
+      &quot;deadline_date&quot;: null,
+      &quot;email&quot;: &quot;m@test.com&quot;,
+      &quot;employment_type&quot;: &quot;Permanent&quot;,
+      &quot;form_type&quot;: &quot;employer&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 4,
+      &quot;num_positions&quot;: null,
+      &quot;phone&quot;: &quot;0821234567&quot;,
+      &quot;requirements&quot;: &quot;3years&quot;,
+      &quot;role_to_fill&quot;: &quot;Developer&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-22T19:16:48.356443&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;enquiry_type&quot;: &quot;General&quot;,
+      &quot;form_type&quot;: &quot;enquiry&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 4,
+      &quot;message&quot;: &quot;Test&quot;,
+      &quot;phone&quot;: null,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-22T19:16:29.980353&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;form_type&quot;: &quot;contact&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 7,
+      &quot;message&quot;: &quot;Hello&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;subject&quot;: &quot;Test&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-22T19:16:12.283103&quot;
+    },
+    {
+      &quot;company_name&quot;: &quot;MakwandeGroup&quot;,
+      &quot;contact_name&quot;: &quot;Makwande&quot;,
+      &quot;deadline_date&quot;: null,
+      &quot;email&quot;: &quot;m@test.com&quot;,
+      &quot;employment_type&quot;: &quot;Permanent&quot;,
+      &quot;form_type&quot;: &quot;employer&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 3,
+      &quot;num_positions&quot;: null,
+      &quot;phone&quot;: &quot;0821234567&quot;,
+      &quot;requirements&quot;: &quot;3years&quot;,
+      &quot;role_to_fill&quot;: &quot;Developer&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-22T19:13:47.128882&quot;
+    }
+  ],
+  &quot;success&quot;: true,
+  &quot;total&quot;: 32,
+  &quot;total_pages&quot;: 2
+}</pre></div></td></tr>
+<tr class='main-row' data-id='TEST26'><td class='test-id'>TEST-26</td><td>Search by name returns results</td><td><span class='srs-tag'>FR-29</span></td><td><span class='status-badge pass'>PASS</span></td><td class='duration-cell'>0.020996s</td><td class='expected-cell'>success</td><td class='notes-cell'><span class='notes-empty'>&#8212;</span></td></tr>
+<tr class='detail-row hidden' id='detail-TEST26'><td colspan='8'><div class='detail-box'><div class='detail-label'>Full Response</div><pre class='detail-pre'>{
+  &quot;page&quot;: 1,
+  &quot;per_page&quot;: 20,
+  &quot;submissions&quot;: [
+    {
+      &quot;cv_filename&quot;: &quot;f51ecf9161c64ae8bbcdf8758117ee6e_test_cv.pdf&quot;,
+      &quot;cv_original_name&quot;: &quot;test_cv.pdf&quot;,
+      &quot;email&quot;: &quot;b@test.com&quot;,
+      &quot;form_type&quot;: &quot;jobseeker&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: true,
+      &quot;id&quot;: 6,
+      &quot;location&quot;: &quot;PE&quot;,
+      &quot;message&quot;: null,
+      &quot;phone&quot;: &quot;0821234567&quot;,
+      &quot;service_interest&quot;: &quot;CVReview&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T01:05:00.338833&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;enquiry_type&quot;: &quot;General&quot;,
+      &quot;form_type&quot;: &quot;enquiry&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 8,
+      &quot;message&quot;: &quot;Test&quot;,
+      &quot;phone&quot;: null,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T01:04:23.726322&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;form_type&quot;: &quot;contact&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 11,
+      &quot;message&quot;: &quot;Hello&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;subject&quot;: &quot;Test&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T01:04:07.351625&quot;
+    },
+    {
+      &quot;cv_filename&quot;: &quot;7388520246e34bfbaf94a6f583af1820_test_cv.pdf&quot;,
+      &quot;cv_original_name&quot;: &quot;test_cv.pdf&quot;,
+      &quot;email&quot;: &quot;b@test.com&quot;,
+      &quot;form_type&quot;: &quot;jobseeker&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: true,
+      &quot;id&quot;: 5,
+      &quot;location&quot;: &quot;PE&quot;,
+      &quot;message&quot;: null,
+      &quot;phone&quot;: &quot;0821234567&quot;,
+      &quot;service_interest&quot;: &quot;CVReview&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:41:34.891227&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;enquiry_type&quot;: &quot;General&quot;,
+      &quot;form_type&quot;: &quot;enquiry&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 7,
+      &quot;message&quot;: &quot;Test&quot;,
+      &quot;phone&quot;: null,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:41:10.667468&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;form_type&quot;: &quot;contact&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 10,
+      &quot;message&quot;: &quot;Hello&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;subject&quot;: &quot;Test&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:40:53.219866&quot;
+    },
+    {
+      &quot;cv_filename&quot;: &quot;95ae3168a77b4fc6a9e6ef6c9b6498f4_test_cv.pdf&quot;,
+      &quot;cv_original_name&quot;: &quot;test_cv.pdf&quot;,
+      &quot;email&quot;: &quot;b@test.com&quot;,
+      &quot;form_type&quot;: &quot;jobseeker&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: true,
+      &quot;id&quot;: 4,
+      &quot;location&quot;: &quot;PE&quot;,
+      &quot;message&quot;: null,
+      &quot;phone&quot;: &quot;0821234567&quot;,
+      &quot;service_interest&quot;: &quot;CVReview&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:19:47.336077&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;enquiry_type&quot;: &quot;General&quot;,
+      &quot;form_type&quot;: &quot;enquiry&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 6,
+      &quot;message&quot;: &quot;Test&quot;,
+      &quot;phone&quot;: null,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:19:13.466990&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;form_type&quot;: &quot;contact&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 9,
+      &quot;message&quot;: &quot;Hello&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;subject&quot;: &quot;Test&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:18:54.466916&quot;
+    },
+    {
+      &quot;cv_filename&quot;: &quot;9ff14a4cba7d4ccf98de30d8f605b05f_test_cv.pdf&quot;,
+      &quot;cv_original_name&quot;: &quot;test_cv.pdf&quot;,
+      &quot;email&quot;: &quot;b@test.com&quot;,
+      &quot;form_type&quot;: &quot;jobseeker&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: true,
+      &quot;id&quot;: 3,
+      &quot;location&quot;: &quot;PE&quot;,
+      &quot;message&quot;: null,
+      &quot;phone&quot;: &quot;0821234567&quot;,
+      &quot;service_interest&quot;: &quot;CVReview&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:14:20.682444&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;enquiry_type&quot;: &quot;General&quot;,
+      &quot;form_type&quot;: &quot;enquiry&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 5,
+      &quot;message&quot;: &quot;Test&quot;,
+      &quot;phone&quot;: null,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:13:48.594543&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;form_type&quot;: &quot;contact&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 8,
+      &quot;message&quot;: &quot;Hello&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;subject&quot;: &quot;Test&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-23T00:13:27.307810&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;enquiry_type&quot;: &quot;General&quot;,
+      &quot;form_type&quot;: &quot;enquiry&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 4,
+      &quot;message&quot;: &quot;Test&quot;,
+      &quot;phone&quot;: null,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-22T19:16:29.980353&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;form_type&quot;: &quot;contact&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 7,
+      &quot;message&quot;: &quot;Hello&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;subject&quot;: &quot;Test&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-22T19:16:12.283103&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;enquiry_type&quot;: &quot;General&quot;,
+      &quot;form_type&quot;: &quot;enquiry&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 3,
+      &quot;message&quot;: &quot;Test&quot;,
+      &quot;phone&quot;: null,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-22T19:13:32.827519&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;form_type&quot;: &quot;contact&quot;,
+      &quot;full_name&quot;: &quot;Buhle&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 6,
+      &quot;message&quot;: &quot;Hello&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;subject&quot;: &quot;Test&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-22T19:13:13.199973&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;form_type&quot;: &quot;contact&quot;,
+      &quot;full_name&quot;: &quot;Buhle Palaza&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 5,
+      &quot;message&quot;: &quot;This is a test message from the QA run.&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;subject&quot;: &quot;Test Subject&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-22T18:47:00.543257&quot;
+    },
+    {
+      &quot;email&quot;: &quot;buhle@test.com&quot;,
+      &quot;enquiry_type&quot;: &quot;Career Change&quot;,
+      &quot;form_type&quot;: &quot;enquiry&quot;,
+      &quot;full_name&quot;: &quot;Buhle Palaza&quot;,
+      &quot;has_cv&quot;: false,
+      &quot;id&quot;: 2,
+      &quot;message&quot;: &quot;I want to change careers into data science.&quot;,
+      &quot;phone&quot;: null,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-22T12:56:21.942349&quot;
+    },
+    {
+      &quot;cv_filename&quot;: &quot;21a2097b751345349f2fad4310a3771c_test_cv.pdf&quot;,
+      &quot;cv_original_name&quot;: &quot;test_cv.pdf&quot;,
+      &quot;email&quot;: &quot;buhle@example.com&quot;,
+      &quot;form_type&quot;: &quot;jobseeker&quot;,
+      &quot;full_name&quot;: &quot;Buhle Zulu&quot;,
+      &quot;has_cv&quot;: true,
+      &quot;id&quot;: 2,
+      &quot;location&quot;: &quot;Cape Town&quot;,
+      &quot;message&quot;: &quot;Please review my CV&quot;,
+      &quot;phone&quot;: &quot;0831234567&quot;,
+      &quot;service_interest&quot;: &quot;CV Review&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-22T09:32:15.615934&quot;
+    },
+    {
+      &quot;cv_filename&quot;: &quot;d8a4c36e3df8445e932f14a7d8431c12_test_cv.pdf&quot;,
+      &quot;cv_original_name&quot;: &quot;test_cv.pdf&quot;,
+      &quot;email&quot;: &quot;buhle@example.com&quot;,
+      &quot;form_type&quot;: &quot;jobseeker&quot;,
+      &quot;full_name&quot;: &quot;Buhle Zulu&quot;,
+      &quot;has_cv&quot;: true,
+      &quot;id&quot;: 1,
+      &quot;location&quot;: &quot;Cape Town&quot;,
+      &quot;message&quot;: &quot;Please review my CV&quot;,
+      &quot;phone&quot;: &quot;0831234567&quot;,
+      &quot;service_interest&quot;: &quot;CV Review&quot;,
+      &quot;status&quot;: &quot;New&quot;,
+      &quot;submitted_at&quot;: &quot;2026-04-22T09:27:34.333690&quot;
+    }
+  ],
+  &quot;success&quot;: true,
+  &quot;total&quot;: 22,
+  &quot;total_pages&quot;: 2
+}</pre></div></td></tr>
+<tr class='main-row' data-id='TEST27'><td class='test-id'>TEST-27</td><td>Submission detail view returns full record</td><td><span class='srs-tag'>FR-30</span></td><td><span class='status-badge pass'>PASS</span></td><td class='duration-cell'>0.011608s</td><td class='expected-cell'>success</td><td class='notes-cell'><span class='notes-empty'>&#8212;</span></td></tr>
+<tr class='detail-row hidden' id='detail-TEST27'><td colspan='8'><div class='detail-box'><div class='detail-label'>Full Response</div><pre class='detail-pre'>{
+  &quot;submission&quot;: {
+    &quot;email&quot;: &quot;buhle@test.com&quot;,
+    &quot;form_type&quot;: &quot;contact&quot;,
+    &quot;full_name&quot;: &quot;Buhle Palaza&quot;,
+    &quot;has_cv&quot;: false,
+    &quot;id&quot;: 1,
+    &quot;message&quot;: &quot;This is a test message.&quot;,
+    &quot;status&quot;: &quot;Contacted&quot;,
+    &quot;subject&quot;: &quot;Test submission&quot;,
+    &quot;submitted_at&quot;: &quot;2026-04-21T17:10:25.503813&quot;
+  },
+  &quot;success&quot;: true
+}</pre></div></td></tr>
+<tr class='main-row' data-id='TEST28'><td class='test-id'>TEST-28</td><td>Status update saves correctly</td><td><span class='srs-tag'>FR-31</span></td><td><span class='status-badge pass'>PASS</span></td><td class='duration-cell'>0.014502s</td><td class='expected-cell'>Contacted</td><td class='notes-cell'><span class='notes-empty'>&#8212;</span></td></tr>
+<tr class='detail-row hidden' id='detail-TEST28'><td colspan='8'><div class='detail-box'><div class='detail-label'>Full Response</div><pre class='detail-pre'>{
+  &quot;id&quot;: 1,
+  &quot;message&quot;: &quot;Status updated to \&quot;Contacted\&quot;.&quot;,
+  &quot;status&quot;: &quot;Contacted&quot;,
+  &quot;success&quot;: true
+}</pre></div></td></tr>
+<tr class='main-row' data-id='TEST29'><td class='test-id'>TEST-29</td><td>CSV export downloads and saves to project</td><td><span class='srs-tag'>FR-33</span></td><td><span class='status-badge pass'>PASS</span></td><td class='duration-cell'>0.014904s</td><td class='expected-cell'>200</td><td class='notes-cell'><span class='notes-empty'>&#8212;</span></td></tr>
+<tr class='detail-row hidden' id='detail-TEST29'><td colspan='8'><div class='detail-box'><div class='detail-label'>Full Response</div><pre class='detail-pre'>200</pre></div></td></tr>
+<tr class='main-row' data-id='TEST30'><td class='test-id'>TEST-30</td><td>CV download blocked without auth</td><td><span class='srs-tag'>FR-32, FR-23</span></td><td><span class='status-badge pass'>PASS</span></td><td class='duration-cell'>0.011064s</td><td class='expected-cell'>302</td><td class='notes-cell'><span class='notes-empty'>&#8212;</span></td></tr>
+<tr class='detail-row hidden' id='detail-TEST30'><td colspan='8'><div class='detail-box'><div class='detail-label'>Full Response</div><pre class='detail-pre'>302</pre></div></td></tr>
+<tr class='main-row' data-id='TEST20'><td class='section-cell' rowspan='2'>Security</td><td class='test-id'>TEST-20</td><td>XSS input handled safely</td><td><span class='srs-tag'>NFR-06</span></td><td><span class='status-badge pass'>PASS</span></td><td class='duration-cell'>0.011202s</td><td class='expected-cell'>success</td><td class='notes-cell'><span class='notes-empty'>&#8212;</span></td></tr>
+<tr class='detail-row hidden' id='detail-TEST20'><td colspan='8'><div class='detail-box'><div class='detail-label'>Full Response</div><pre class='detail-pre'>{
+  &quot;errors&quot;: {
+    &quot;full_name&quot;: &quot;Full name is required.&quot;
+  },
+  &quot;success&quot;: false
+}</pre></div></td></tr>
+<tr class='main-row' data-id='TEST21'><td class='test-id'>TEST-21</td><td>CSRF active on admin routes</td><td><span class='srs-tag'>NFR-07</span></td><td><span class='status-badge pass'>PASS</span></td><td class='duration-cell'>0.009331s</td><td class='expected-cell'>400</td><td class='notes-cell'><span class='notes-empty'>&#8212;</span></td></tr>
+<tr class='detail-row hidden' id='detail-TEST21'><td colspan='8'><div class='detail-box'><div class='detail-label'>Full Response</div><pre class='detail-pre'>400</pre></div></td></tr>
+</tbody>
+    </table>
+  </div>
+</div>
+
+<div class="manual-section">
+  <h2>Manual QA Checklist &mdash; Requirements Not Coverable by Automated Tests</h2>
+  <table class="manual-table">
+    <thead>
+      <tr><th>Done</th><th>Req</th><th>Priority</th><th>What to Check</th><th>Expected Result</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><span class="check-box" onclick="this.classList.toggle('checked')"></span></td><td>FR-26</td><td class="priority-must">Must Have</td><td>Log into admin. Open /admin/submissions. Scroll through the list.</td><td>All submissions visible, paginated, sorted newest-first. Columns: ID, Name, Form Type, Date, Status.</td></tr>
+      <tr><td><span class="check-box" onclick="this.classList.toggle('checked')"></span></td><td>FR-27</td><td class="priority-must">Must Have</td><td>Use the Form Type filter dropdown in the admin submissions list. Select each type in turn.</td><td>List updates to show only the selected type. Switching back to All restores the full list.</td></tr>
+      <tr><td><span class="check-box" onclick="this.classList.toggle('checked')"></span></td><td>FR-28</td><td class="priority-must">Must Have</td><td>Use the Status filter. Select New, then Contacted, then each status in turn.</td><td>Only submissions matching the selected status are shown.</td></tr>
+      <tr><td><span class="check-box" onclick="this.classList.toggle('checked')"></span></td><td>FR-29</td><td class="priority-must">Must Have</td><td>Type a known name (e.g. Buhle) and a known email into the search box.</td><td>Matching submissions appear. Unrelated submissions are hidden. Clearing the search restores all.</td></tr>
+      <tr><td><span class="check-box" onclick="this.classList.toggle('checked')"></span></td><td>FR-30</td><td class="priority-must">Must Have</td><td>Click any submission row to open the detail view.</td><td>All submitted fields are shown, including timestamp, status, and a CV download button (for jobseeker submissions).</td></tr>
+      <tr><td><span class="check-box" onclick="this.classList.toggle('checked')"></span></td><td>FR-31</td><td class="priority-must">Must Have</td><td>Open a submission detail. Change the status dropdown from New to Contacted. Save.</td><td>Status updates immediately. Return to the list view and confirm the new status is shown there too.</td></tr>
+      <tr><td><span class="check-box" onclick="this.classList.toggle('checked')"></span></td><td>FR-32</td><td class="priority-must">Must Have</td><td>Open a jobseeker submission. Click the CV download button.</td><td>The correct PDF or DOCX downloads with the original filename. Confirm the file is readable.</td></tr>
+      <tr><td><span class="check-box" onclick="this.classList.toggle('checked')"></span></td><td>FR-33</td><td class="priority-should">Should Have</td><td>Apply a filter (e.g. form type = Jobseeker) then click Export CSV.</td><td>A CSV file downloads. Open it and confirm columns match: ID, Form Type, Name, Email, Phone, Status, Submitted At, Details.</td></tr>
+      <tr><td><span class="check-box" onclick="this.classList.toggle('checked')"></span></td><td>FR-35</td><td class="priority-should">Should Have</td><td>Submit any form with valid data. Check the configured admin email inbox.</td><td>An email arrives within 1 minute containing: form type, submitter name, email, and timestamp.</td></tr>
+      <tr><td><span class="check-box" onclick="this.classList.toggle('checked')"></span></td><td>FR-36</td><td class="priority-should">Should Have</td><td>Submit a form with a real email address. Check the submitter inbox.</td><td>A confirmation email arrives acknowledging receipt of the submission.</td></tr>
+      <tr><td><span class="check-box" onclick="this.classList.toggle('checked')"></span></td><td>NFR-02</td><td class="priority-must">Must Have</td><td>Submit each form (without file) and observe the response time in the Duration column above.</td><td>All form submissions (no file) complete in under 2 seconds. Flag any row where Duration exceeds 2.000s.</td></tr>
+      <tr><td><span class="check-box" onclick="this.classList.toggle('checked')"></span></td><td>NFR-03</td><td class="priority-must">Must Have</td><td>Upload a real PDF file close to 5MB via the CV form and note the Duration from TEST-13 or a manual upload.</td><td>Upload completes within 10 seconds.</td></tr>
+      <tr><td><span class="check-box" onclick="this.classList.toggle('checked')"></span></td><td>NFR-08</td><td class="priority-must">Must Have</td><td>Open the database file (instance/makwande_careers.db) in a SQLite viewer. Inspect the admin_user table.</td><td>password_hash column contains a bcrypt hash starting with $ (cost factor 12). No plaintext passwords anywhere.</td></tr>
+      <tr><td><span class="check-box" onclick="this.classList.toggle('checked')"></span></td><td>NFR-11</td><td class="priority-must">Must Have</td><td>Submit each form with various invalid inputs. Read every error message that appears.</td><td>All error messages are plain English. No raw Python exceptions, stack traces, or technical codes shown to the user.</td></tr>
+      <tr><td><span class="check-box" onclick="this.classList.toggle('checked')"></span></td><td>NFR-13</td><td class="priority-must">Must Have</td><td>Open app.py, models.py, routes/forms.py, routes/admin.py, utils.py in a code editor.</td><td>Every route, model, and utility function has a comment explaining its purpose. README.md is present and current.</td></tr>
+      <tr><td><span class="check-box" onclick="this.classList.toggle('checked')"></span></td><td>NFR-14</td><td class="priority-must">Must Have</td><td>Review the Flask app structure. Confirm Blueprint registration in app.py.</td><td>Routes are split into forms_bp and admin_bp Blueprints. Frontend templates use a Jinja2 base template with inheritance.</td></tr>
+      <tr><td><span class="check-box" onclick="this.classList.toggle('checked')"></span></td><td>NFR-15</td><td class="priority-must">Must Have</td><td>Review models.py and all route files. Search for any raw SQL strings.</td><td>All database operations use SQLAlchemy ORM methods only. No raw SQL. No direct sqlite3 calls.</td></tr>
+      <tr><td><span class="check-box" onclick="this.classList.toggle('checked')"></span></td><td>NFR-16</td><td class="priority-must">Must Have</td><td>Open config.py and .env.example. Search the codebase for hardcoded secrets.</td><td>All sensitive values (SECRET_KEY, DB URI, email credentials, upload path) are read from environment variables via python-dotenv. None are hardcoded.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="footer">Generated by <span>run_tests.ps1</span> &mdash; Makwande Careers Backend QA &mdash; Phase 1</div>
+<script>
+document.querySelectorAll('tr.main-row').forEach(function(row) {
+  row.style.cursor = 'pointer';
+  row.addEventListener('click', function() {
+    var id     = row.getAttribute('data-id');
+    var detail = document.getElementById('detail-' + id);
+    if (detail) {
+      detail.classList.toggle('hidden');
+      row.classList.toggle('expanded');
+    }
+  });
+});
+
+function filterTable(f, btn) {
+  document.querySelectorAll('.filter-btn').forEach(function(b) {
+    b.classList.remove('active','active-pass','active-fail');
+  });
+  if      (f === 'pass') btn.classList.add('active-pass');
+  else if (f === 'fail') btn.classList.add('active-fail');
+  else                   btn.classList.add('active');
+
+  document.querySelectorAll('tr.main-row').forEach(function(row) {
+    var badge  = row.querySelector('.status-badge');
+    if (!badge) return;
+    var isPass = badge.classList.contains('pass');
+    var hide   = (f === 'pass' && !isPass) || (f === 'fail' && isPass);
+    if (hide) {
+      row.classList.add('hidden');
+      var detail = document.getElementById('detail-' + row.getAttribute('data-id'));
+      if (detail) detail.classList.add('hidden');
+    } else {
+      row.classList.remove('hidden');
+    }
+  });
+}
+
+(function() {
+  var sects = {};
+  var lastSection = null;
+  document.querySelectorAll('tr.main-row').forEach(function(row) {
+    var sc = row.querySelector('.section-cell');
+    if (sc) lastSection = sc.textContent.trim();
+    var b = row.querySelector('.status-badge');
+    if (!b || !lastSection) return;
+    if (!sects[lastSection]) sects[lastSection] = {pass:0, fail:0};
+    if (b.classList.contains('pass')) sects[lastSection].pass++;
+    else sects[lastSection].fail++;
+  });
+  var c = document.getElementById('section-bars-content');
+  Object.keys(sects).forEach(function(name) {
+    var counts = sects[name];
+    var t   = counts.pass + counts.fail;
+    var pct = t > 0 ? Math.round(counts.pass / t * 100) : 0;
+    var fc  = counts.fail === 0 ? '' : (counts.pass === 0 ? 'all-fail' : 'has-fail');
+    var div = document.createElement('div');
+    div.className = 'sb-row';
+    div.innerHTML =
+      '<div class="sb-info"><span>' + name + '</span>' +
+      '<span class="sb-count">' + counts.pass + '/' + t + '</span></div>' +
+      '<div class="sb-track"><div class="sb-fill ' + fc + '" style="width:' + pct + '%"></div></div>';
+    c.appendChild(div);
+  });
+})();
+</script>
+</body>
+</html>

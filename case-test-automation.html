@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test Automation Suites — Case Study | Buhle Palaza</title>
+<meta name="description" content="Case study: a Java/TestNG framework for SauceDemo and a Python/pytest suite for OrangeHRM, with page objects, cross-browser runs and failure screenshots.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Test Automation Suites — Case Study | Buhle Palaza">
+<meta property="og:description" content="Case study: a Java/TestNG framework for SauceDemo and a Python/pytest suite for OrangeHRM, with page objects, cross-browser runs and failure screenshots.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<nav>
+  <div class="container nav-inner">
+    <a class="logo" href="index.html" aria-label="Home"><img src="images/profile.jpg" alt="Buhle Palaza"></a>
+    <div class="nav-links">
+      <a href="index.html#work">Work</a>
+      <a href="index.html#case-studies">Case Studies</a>
+      <a href="index.html#qa">QA Lab</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+    <a class="cv" href="Buhle_Palaza_CV.pdf" download="Buhle_Palaza_Software_Tester_CV.pdf">Download CV ↓</a><details class="mobile-menu"><summary aria-label="Open navigation menu">Menu</summary><div class="mobile-menu-links">
+      <a href="index.html#work">Work</a>
+      <a href="index.html#case-studies">Case Studies</a>
+      <a href="index.html#qa">QA Lab</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#contact">Contact</a>
+    </div></details>
+  </div>
+</nav>
+
+<div class="container" style="padding:120px 0 0">
+  <a href="index.html#case-studies" class="arrow mono" style="display:inline-block;font-size:12px">← ALL CASE STUDIES</a>
+</div>
+<section id="case-test-automation" class="cs-study" aria-labelledby="cs-auto-heading" style="padding-top:40px;border-top:0">
+  <div class="mesh-glow glow-small" aria-hidden="true"></div>
+  <div class="container">
+    <div class="cs-eyebrow mono">CASE STUDY / 04</div>
+    <span class="ev-badge real" style="margin:0 0 18px">● CAPACITI TRAINING PROJECTS</span>
+    <h1 id="cs-auto-heading" class="cs-title">TEST AUTOMATION SUITES</h1>
+    <p class="cs-subhead">A Java/TestNG framework for SauceDemo and a Python/pytest suite for OrangeHRM: page objects, explicit waits, reports with failure screenshots, and cross-browser runs.</p>
+    <div class="cs-role-line mono">QA AUTOMATION — CAPACITI PROJECTS</div>
+    <div class="tech-row" style="margin-bottom:26px">
+      <span class="pill">SELENIUM</span><span class="pill">JAVA</span><span class="pill">TESTNG</span><span class="pill">MAVEN</span>
+      <span class="pill">PYTHON</span><span class="pill">PYTEST</span><span class="pill">PAGE OBJECT MODEL</span><span class="pill">EXTENTREPORTS</span><span class="pill">GITHUB ACTIONS</span>
+    </div>
+    <div id="autoLinks"><!-- rendered from CASE_LINKS.automation in data.js --></div>
+
+    <div class="cs-sub">
+      <div class="cs-sub-label">THE PROJECTS</div>
+      <h3>Automation Frameworks and Test Coverage</h3>
+      <div class="built-grid">
+        <div class="built-card">
+          <h4>SauceDemo Framework (Java)</h4>
+          <ul><li>Public e-commerce demo, saucedemo.com</li><li>Java 11 compiler target; Java 17 CI runtime; Selenium, TestNG, Maven</li><li>Page Object Model; one driver per thread</li><li>3 suites: full regression, smoke, cross-browser</li><li>Headless mode + GitHub Actions smoke workflow</li></ul>
+        </div>
+        <div class="built-card">
+          <h4>OrangeHRM Suite (Python)</h4>
+          <ul><li>Public HR-system demo, opensource-demo.orangehrmlive.com</li><li>Python, Selenium, pytest, Page Object Model</li><li>Fixtures for the browser and the logged-in state</li><li>pytest-html reporting hook attaches screenshots for test-call failures when the browser is available</li><li>5 test functions producing 6 cases; leave availability marked xfail</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="cs-sub">
+      <div class="cs-sub-label">SCOPE</div>
+      <h3>What the suites check</h3>
+      <div class="req-list">
+        <div class="req-item"><span class="mono" style="color:var(--accent)">LOGIN</span><p>Valid and invalid credentials, locked-out, problem and performance-glitch users, empty fields, repeated failed attempts.</p></div>
+        <div class="req-item"><span class="mono" style="color:var(--accent)">INVENTORY</span><p>Product count and details, add and remove items, cart kept after a refresh, sorting by price and name, logout.</p></div>
+        <div class="req-item"><span class="mono" style="color:var(--accent)">CHECKOUT</span><p>Full purchase, each required field left empty, several items, cancelling, special characters in the form.</p></div>
+        <div class="req-item"><span class="mono" style="color:var(--accent)">CROSS-CUTTING</span><p>Five SauceDemo core journeys on Chrome, Firefox and Edge; six data-driven login rows in the full suite; OrangeHRM login, reset-page navigation and leave-form availability.</p></div>
+      </div>
+    </div>
+
+    <div class="cs-sub" style="position:relative">
+      <div class="mesh-glow glow-small" aria-hidden="true"></div>
+      <div class="cs-sub-label">TEST DESIGN</div>
+      <h3>Reusable Automation Frameworks</h3>
+      <div class="auto-stats stat-grid-4">
+        <div class="auto-stat"><div class="num">3</div><div class="label">TESTNG SUITES</div></div>
+        <div class="auto-stat"><div class="num">3</div><div class="label">BROWSERS</div></div>
+        <div class="auto-stat"><div class="num">6</div><div class="label">OHRM PARAMETERIZED CASES</div></div>
+        <div class="auto-stat"><div class="num">1</div><div class="label">CI SMOKE WORKFLOW</div></div>
+      </div>
+    </div>
+
+    <div class="cs-sub">
+      <div class="cs-sub-label">RECORDED EXECUTION EVIDENCE</div>
+      <h3>Project execution results</h3>
+      <p>Three saved reports record 32, 7 and 15 passing executions, with no failures or skips. The 15-execution report contains five checks each in Chrome, Firefox and Edge. Counts include repeated tests across runs and browsers; they are not unique test methods.</p>
+      <p><a class="arrow" href="reports/dashboard.html">OPEN PROJECT EXECUTION DASHBOARD →</a></p>
+      <iframe class="report-dashboard" title="Test execution and coverage dashboard for SauceDemo, OrangeHRM and Makwande Careers" src="reports/dashboard.html" loading="lazy"></iframe>
+    </div>
+
+    <div class="cs-sub">
+      <div class="cs-sub-label">SOURCE AND REPORT VERIFICATION</div>
+      <h3>Execution results and defined coverage</h3>
+      <div class="table-scroll"><table class="compat-table"><caption>UPLOADED SUITES AND SAVED REPORTS · OCTOBER 2026</caption><thead><tr><th scope="col">Suite</th><th scope="col">Browser</th><th scope="col">Coverage or result</th><th scope="col">Evidence</th></tr></thead><tbody><tr><th scope="row">SauceDemo full regression</th><td>Chrome</td><td>32 passed · 0 failed · 0 skipped</td><td>Saved Extent report</td></tr><tr><th scope="row">SauceDemo smoke</th><td>Chrome</td><td>7 passed · 0 failed · 0 skipped</td><td>Saved Extent report</td></tr><tr><th scope="row">SauceDemo cross-browser</th><td>Chrome 5 · Firefox 5 · Edge 5</td><td>15 passed · 0 failed · 0 skipped</td><td>Saved Extent report</td></tr><tr><th scope="row">OrangeHRM</th><td>Chrome configured</td><td>4 passed · 1 failed · 1 xfail</td><td><a href="reports/orangehrm/report.html">Saved pytest-html report</a></td></tr></tbody></table></div>
+      <p class="flow-note">The full regression configuration defines 27 test methods; six login data rows expand it to 32 executions. Smoke defines 7 methods. Cross-browser defines 5 methods executed in each of 3 browsers. OrangeHRM defines 5 functions, with the invalid-login function parameterized into 2 cases. Its saved pytest-html report records 4 passed, 1 failed and 1 xfail in 3 minutes 22 seconds.</p>
+    </div>
+
+    <div class="cs-sub">
+      <div class="cs-sub-label">AUTOMATION DESIGN</div>
+      <h3>Assertions, synchronization and reporting</h3>
+      <div class="built-grid">
+        <div class="built-card"><h4>Source-aligned suites</h4><p>TestNG XML files select full regression, smoke and sequential cross-browser classes. Assertions check navigation, error messages, cart counts, sorting and checkout outcomes.</p></div>
+        <div class="built-card"><h4>OrangeHRM recovery check</h4><p>The password-reset check uses a text-based locator and asserts navigation to the reset page. The saved report records a failed link-presence assertion. The current source uses a text-based locator; no later successful retest is established by that report.</p></div>
+        <div class="built-card"><h4>Observations and test data</h4><p>Case-insensitive usernames are recorded as an observation. Leave-form availability uses non-strict xfail. The saved run reached the dropdown-availability assertion and reported XFailed, so the result should not be attributed solely to a missing leave balance. XPASS would indicate a passing check rather than prove a product fix.</p></div>
+        <div class="built-card"><h4>Waits and failure evidence</h4><p>Both suites use explicit waits without fixed sleeps. SauceDemo also configures a 5-second implicit wait. Failure hooks attempt screenshots; the OrangeHRM hook covers test-call failures rather than fixture setup failures.</p></div>
+      </div>
+    </div>
+
+    <div class="cs-sub" style="position:relative">
+      <div class="mesh-glow glow-warm" aria-hidden="true"></div>
+      <div class="cs-sub-label">WHAT THIS SHOWS</div>
+      <h3>Automation Design and Maintainability</h3>
+      <div class="gate-card">
+        <div class="gate-rc mono">2 AUTOMATION FRAMEWORKS</div>
+        <div class="gate-version">54 SauceDemo executions · 3 browsers</div>
+        <ul class="gate-checklist">
+          <li><span>PAGE OBJECT MODEL</span><span class="check">✓</span></li>
+          <li><span>EXPLICIT WAITS; NO FIXED SLEEPS</span><span class="check">✓</span></li>
+          <li><span>REPORTS WITH FAILURE SCREENSHOTS</span><span class="check">✓</span></li>
+          <li><span>CROSS-BROWSER (CHROME · FIREFOX · EDGE)</span><span class="check">✓</span></li>
+          <li><span>GITHUB ACTIONS SMOKE WORKFLOW CONFIGURED</span><span class="check">✓</span></li>
+        </ul>
+        <p class="gate-note">Test planning, manual cases and defect reports were CAPACITI team deliverables. I developed the SauceDemo framework and contributed to the OrangeHRM automation, including maintenance and test execution. I reviewed AI-assisted code changes and validated them by running the suites against the demo applications.</p>
+      </div>
+    </div>
+
+    <div class="cs-nav">
+      <a class="cs-nav-link" href="case-qa-workflow.html">← QA WORKFLOW</a>
+      <a class="cs-nav-link cs-nav-next" href="index.html#qa">EXPLORE QA LAB →</a>
+    </div>
+  </div>
+</section>
+<footer>
+  <div class="container"><span>BP. / SOFTWARE TESTER & DEVELOPER</span><span>© 2026 BUHLE PALAZA</span></div>
+</footer>
+<script src="data.js"></script>
+<script src="render.js"></script>
+<script>
+  PortfolioRender.renderSourceLinks("autoLinks", CASE_LINKS.automation);
+</script>
+<script src="download-cv.js"></script>
+</body>
+</html>
