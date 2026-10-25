@@ -1,0 +1,21 @@
+Source: supplied Makwande_Platform-main.zip
+File: backend/routes/forms.py
+Function: free_pipeline
+Reviewed: 24 October 2026
+This excerpt establishes the save calls in the supplied source. It is not a historical diff or a runtime retest log.
+
+511:     submission = FreePipelineSubmission(
+512:         full_name          = full_name,
+513:         email              = email,
+514:         phone              = phone,
+515:         location           = location,
+516:         career_interest    = career_interest,
+517:         work_authorization = work_authorization,
+518:         experience_years   = experience_years,
+519:         qualification      = qualification,
+520:         message            = message or None,
+521:         cv_filename        = stored_filename,
+522:         cv_original_name   = original_filename,
+523:     )
+524:     db.session.add(submission)
+525:     db.session.commit()

@@ -10,13 +10,13 @@
 
   function esc(str) {
     return String(str == null ? "" : str)
-      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
   }
 
   /* ---- Real / Demo / Pending badge — icon + text, never colour alone ---- */
   function badge(source) {
     if (source === "real") {
-      return '<span class="ev-badge real">● REAL PROJECT EVIDENCE</span>';
+      return ''; 
     }
     if (source === "demo") {
       return '<span class="ev-badge demo">● DEMO / MOCK DATA</span>';
@@ -45,7 +45,7 @@
     el.innerHTML = items.map(function (item) {
       var visual;
       if (item.source === "real" && item.asset) {
-        visual = '<img class="evidence-visual" src="' + esc(item.asset) + '" alt="' + esc(item.title) + '" tabindex="0" role="button" aria-label="View larger image: ' + esc(item.title) + '">';
+        visual = '<img class="evidence-visual" src="' + esc(item.asset) + '" loading="lazy" alt="' + esc(item.title) + '" tabindex="0" role="button" aria-label="View larger image: ' + esc(item.title) + '">';
       } else if (item.source === "pending") {
         visual = '<div class="evidence-visual pending">[ ' + esc((item.replaceWith || item.title).toUpperCase()) + ' ]</div>';
       } else {
@@ -94,7 +94,7 @@
 
     el.innerHTML = cases.map(function (tc) {
       var steps = tc.steps.map(function (s) { return "<li>" + esc(s) + "</li>"; }).join("");
-      var note = tc.note ? '<br><span style="color:#63636b">Note: ' + esc(tc.note) + '</span>' : "";
+      var note = tc.note ? '<br><span class="case-note">Note: ' + esc(tc.note) + '</span>' : "";
       return (
         '<details class="tc-item" data-type="' + esc(tc.type) + '">' +
           '<summary>' +
@@ -188,40 +188,38 @@
      Click (or Enter/Space on) any real evidence image to view it full-size.
      Uses event delegation, so it works for evidence images injected by
      renderEvidenceGallery on any page, now or later — no per-page wiring. */
+  var lightboxTrigger = null;
   function ensureLightbox() {
-    var lb = document.getElementById("evLightbox");
+    var lb = document.getElementById('evLightbox');
     if (lb) return lb;
-    lb = document.createElement("div");
-    lb.id = "evLightbox";
-    lb.className = "ev-lightbox";
-    lb.setAttribute("aria-hidden", "true");
-    lb.innerHTML =
-      '<button type="button" class="ev-lightbox-close" aria-label="Close">×</button>' +
-      '<img class="ev-lightbox-img" alt="">' +
-      '<div class="ev-lightbox-caption mono"></div>';
+    lb = document.createElement('dialog');
+    lb.id = 'evLightbox';
+    lb.className = 'ev-lightbox';
+    lb.setAttribute('aria-label', 'Evidence image viewer');
+    lb.innerHTML = '<button type="button" class="ev-lightbox-close" aria-label="Close image">×</button><img class="ev-lightbox-img" alt=""><div class="ev-lightbox-caption mono"></div>';
     document.body.appendChild(lb);
-    lb.addEventListener("click", function (e) {
-      if (e.target === lb || e.target.classList.contains("ev-lightbox-close")) closeLightbox();
+    lb.addEventListener('click', function (e) {
+      if (e.target === lb || e.target.classList.contains('ev-lightbox-close')) closeLightbox();
     });
+    lb.addEventListener('cancel', function (e) { e.preventDefault(); closeLightbox(); });
     return lb;
   }
-
   function closeLightbox() {
-    var lb = document.getElementById("evLightbox");
-    if (!lb) return;
-    lb.classList.remove("open");
-    lb.setAttribute("aria-hidden", "true");
-    document.body.classList.remove("ev-lock-scroll");
+    var lb = document.getElementById('evLightbox');
+    if (!lb || !lb.open) return;
+    lb.close();
+    document.body.classList.remove('ev-lock-scroll');
+    if (lightboxTrigger) lightboxTrigger.focus();
   }
-
   function openLightbox(src, caption) {
     var lb = ensureLightbox();
-    lb.querySelector(".ev-lightbox-img").src = src;
-    lb.querySelector(".ev-lightbox-img").alt = caption || "";
-    lb.querySelector(".ev-lightbox-caption").textContent = caption || "";
-    lb.classList.add("open");
-    lb.setAttribute("aria-hidden", "false");
-    document.body.classList.add("ev-lock-scroll");
+    lightboxTrigger = document.activeElement;
+    lb.querySelector('.ev-lightbox-img').src = src;
+    lb.querySelector('.ev-lightbox-img').alt = caption || '';
+    lb.querySelector('.ev-lightbox-caption').textContent = caption || '';
+    lb.showModal();
+    document.body.classList.add('ev-lock-scroll');
+    lb.querySelector('button').focus();
   }
 
   document.addEventListener("click", function (e) {
