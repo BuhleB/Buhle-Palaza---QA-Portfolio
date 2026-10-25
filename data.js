@@ -411,7 +411,7 @@ var QA_LAB = {
       "expected": "The recovery link is found and opens a URL containing passwordreset.",
       "result": "fail",
       "actual": "FAIL in the saved pytest-html report: Forgot password link not found on login page.",
-      "note": "The recorded failure is a link-presence assertion. The project source uses a text-based locator; the saved report does not establish a successful retest. This is not evidence that the application has no recovery link."
+      "note": "The presence assertion failed before the click. Its screenshot shows the reset control, so I need to investigate detection or timing before treating this as an application defect."
     },
     {
       "id": "test_username_is_not_case_sensitive",
@@ -452,8 +452,8 @@ var QA_LAB = {
       "severity": "Critical",
       "priority": "Critical",
       "environment": "Production — Render / PostgreSQL",
-      "status": "Fix present; retest recorded",
-      "description": "The recorded investigation describes successful uploads and notification emails, but no saved Free Talent Pipeline submission in the admin list.",
+      "status": "Save calls added",
+      "description": "I found that uploads and notification emails succeeded while the Free Talent Pipeline submission was missing from the admin list.",
       "steps": [
         "Submit the Free Pipeline Membership form with a valid CV upload",
         "Confirm the success message and admin notification email arrive",
