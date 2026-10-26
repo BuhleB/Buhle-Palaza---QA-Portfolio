@@ -63,6 +63,6 @@
     var card = create(response, 'response.json', 'JSON', status);
     wrapper.replaceWith(card);
   }
-  document.querySelectorAll('pre.code-sample').forEach(function (source) { create(source, 'pipeline.yml', 'YAML'); });
+  document.querySelectorAll('pre.code-sample').forEach(function (source) { create(source, source.dataset.filename || 'pipeline.yml', source.dataset.language || 'YAML'); });
   window.PortfolioCode = {refresh: function (id) { var el = document.getElementById(id); if (el) paint(el); }};
 })();
