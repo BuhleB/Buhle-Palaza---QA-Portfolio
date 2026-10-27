@@ -964,3 +964,5 @@ body {
 .preview-card .work-card-body{position:relative;z-index:1}
 .preview-card p,.preview-card .project-tools,.preview-card .project-number{color:#d6d3ca}
 @media(prefers-reduced-motion:reduce){.preview-card::before{transition:none}.preview-card:hover::before{transform:none}}
+
+.recorded-cases{margin-top:28px}.recorded-case-list{padding:8px 6px}.recorded-case-list article{padding:18px 0;border-top:1px solid var(--border)}.recorded-case-list h3{font-size:18px;margin-bottom:12px}.recorded-case-list ol{padding-left:24px}.recorded-case-list p,.recorded-case-list li{font-size:14px;line-height:1.7}.recorded-cases>p{margin:16px 0}
