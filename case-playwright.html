@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SauceDemo — Playwright Automation | Buhle Palaza</title>
+<meta content="Browser checks for login, product sorting and cart behaviour." name="description"/>
+<meta content="website" property="og:type"/>
+<meta content="SauceDemo — Playwright Automation | Buhle Palaza" property="og:title"/>
+<meta content="Browser checks for login, product sorting and cart behaviour." property="og:description"/>
+<link href="favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="styles.css" rel="stylesheet"/>
+</head>
+<body class="case-page minimal-page"><a class="skip-link" href="#main">Skip to content</a><nav aria-label="Main navigation"><div class="container nav-inner"><a aria-label="Home" class="logo" href="index.html"><img alt="Buhle Palaza" height="56" src="images/profile.jpg" width="56"/></a><div class="nav-links"><a href="index.html#work">Work</a><a href="qa-lab.html">QA Lab</a><a href="reports/dashboard.html">Reports</a><a href="index.html#about">About</a></div><a class="cv" download="Buhle_Palaza_Software_Tester_CV.pdf" href="Buhle_Palaza_CV.pdf">Download CV ↓</a><details class="mobile-menu"><summary aria-label="Open navigation menu">Menu</summary><div class="mobile-menu-links"><a href="index.html#work">Work</a><a href="qa-lab.html">QA Lab</a><a href="reports/dashboard.html">Reports</a><a href="index.html#about">About</a></div></details></div></nav><main class="case-main" id="main"><div class="container"><a class="arrow mono back-link" href="index.html#work">← ALL WORK</a><header class="case-header warm-section"><div aria-hidden="true" class="mesh-glow glow-warm restored-glow"></div><div class="cs-eyebrow mono">PERSONAL PROJECT · PUBLIC DEMO</div><h1 class="cs-title">SauceDemo — Playwright Automation</h1><p class="cs-subhead">SauceDemo browser automation. I built the TypeScript tests and page objects.</p><div class="tech-row"><span class="pill">Playwright</span><span class="pill">TypeScript</span><span class="pill">Page objects</span></div></header><div class="evidence-links"><a class="arrow" href="https://github.com/BuhleB/saucedemo-playwright-framework">Repository →</a><a class="arrow" href="evidence/playwright/tests/cart.spec.ts">Test source →</a></div><section class="cs-sub quick-section"><h2>Tests</h2><div class="table-scroll"><table class="audit-table"><thead><tr><th scope="col">Area</th><th scope="col">Checks</th></tr></thead><tbody><tr><td>Login</td><td>Valid, invalid, locked-out and missing credentials</td></tr><tr><td>Shopping</td><td>Product details, sorting, cart contents, removal and refresh</td></tr><tr><td>Navigation</td><td>Checkout cancellation, logout, alerts and dynamic text</td></tr></tbody></table></div></section><section class="cs-sub quick-section"><h2>Cart test</h2><pre class="code-sample" data-filename="cart.spec.ts" data-language="TypeScript">import { test, expect } from '@playwright/test';
+import { LoginPage } from '../pages/LoginPage';
+import { InventoryPage } from '../pages/InventoryPage';
+
+test.beforeEach(async ({ page }) =&gt; {
+  const loginPage = new LoginPage(page);
+
+  await loginPage.goto();
+  await loginPage.login('standard_user', 'secret_sauce');
+
+  await expect(page.getByTestId('title')).toHaveText('Products');
+});
+
+test('CART-01: added product appears in cart @smoke', async ({ page }) =&gt; {
+  const inventory = new InventoryPage(page);
+
+  await inventory.addProduct('Sauce Labs Backpack');
+
+  await expect(page.getByTestId('shopping-cart-badge')).toHaveText('1');
+
+  await inventory.openCart();
+
+  const cartItem = page.getByTestId('inventory-item');
+
+  await expect(cartItem).toHaveCount(1);
+  await expect(cartItem.getByTestId('inventory-item-name'))
+    .toHaveText('Sauce Labs Backpack');
+  await expect(cartItem.getByTestId('inventory-item-price'))
+    .toHaveText('$29.99');
+});</pre><p class="test-caption">Actual source: setup and CART-01. Full file linked above.</p></section><section class="cs-sub quick-section"><h2>Execution</h2><p>Chromium · Firefox · WebKit configured. No published run result.</p></section><span class="anchor-alias" id="project-example"></span><span class="anchor-alias" id="project-status"></span><span class="anchor-alias" id="playwright"></span><details class="content-details scope-limits" id="scope-limits"><summary>Scope and limits</summary><ul><li>Four checkout cases sit outside <code>testDir</code> and are excluded from the default run. Source repair and rerun are still pending.</li><li>Configured browsers and CI are not proof of a successful run. Some scenarios overlap across files.</li><li>Screenshots, traces and video are configured for failures. <div class="evidence-links"><a class="arrow" href="evidence/playwright/playwright.config.ts">Browser configuration →</a><a class="arrow" href="evidence/playwright/playwright.yml">CI configuration →</a></div></li></ul></details><div class="cs-nav"><a class="arrow" href="index.html#work">← All work</a></div></div></main><footer><div class="container"><span>BP. / Software Tester / QA Analyst</span><span>© 2026 Buhle Palaza</span></div></footer><script src="code-cards.js"></script><script src="download-cv.js"></script><script src="project-details.js"></script></body></html>

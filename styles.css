@@ -880,3 +880,87 @@ body {
 @media(max-width:620px){.report-reader main{padding-top:64px}.dashboard-page main{padding-top:96px}}
 .dashboard-page .stat{background:rgba(5,7,8,.64)}
 .report-reader iframe{background:#fff}
+
+/* Clear introduction and balanced project cards. */
+.home-page .hero{padding:125px 0 44px}
+.home-page .hero-role{margin-bottom:16px}
+.hero-skills{display:flex;flex-wrap:wrap;gap:8px 20px;list-style:none;padding:0;margin:22px 0 0;color:var(--text);font-size:14px}
+.hero-skills li{border-bottom:1px solid var(--border);padding-bottom:5px}
+.home-page #work{padding-top:40px}
+.home-page .work-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.home-page #contact{border-top:1px solid var(--border)}
+.home-page #contact p{margin-top:16px;color:var(--muted)}
+@media(max-width:900px){.home-page .work-grid{grid-template-columns:1fr}}
+@media(max-width:620px){.home-page .hero{padding:105px 0 28px}.home-page .hero-role{margin-bottom:12px}.home-page .hero-h1{font-size:46px}.home-page .hero-copy{margin-top:18px}.home-page .hero-actions{margin-top:22px}.hero-skills{font-size:13px;gap:8px 16px}.home-page #work{padding-top:28px}}
+
+/* Brief project overviews with optional supporting evidence. */
+.work-code{height:235px;padding:25px 30px;background:linear-gradient(120deg,#182319,#151513);border-bottom:1px solid var(--border);color:var(--text)}
+.work-code span{font:11px var(--font-mono);color:var(--accent);letter-spacing:1px}
+.work-code pre{margin-top:14px;font:15px/1.55 var(--font-mono)}
+.quick-section{margin-top:30px}
+.scope-note{font-size:14px;color:var(--muted);border-left:2px solid var(--accent);padding-left:16px}
+.project-details{margin-top:36px}
+.project-detail-body{padding:0 6px 16px}
+.project-detail-body>.cs-sub:first-child{margin-top:20px}
+.project-detail-body .cs-sub{scroll-margin-top:110px}
+.case-summary dt{font-family:var(--font-body);font-weight:600;font-size:13px}
+.case-page .cs-title{font-size:clamp(32px,4vw,54px);max-width:950px;line-height:1.12}
+.case-page .cs-subhead{font-size:18px;max-width:70ch}
+@media(max-width:900px){.work-code{height:100%;min-height:230px;display:flex;flex-direction:column;justify-content:center}}
+@media(max-width:620px){.work-code{height:180px;min-height:0}.project-detail-body{padding-inline:0}.case-page .cs-title{font-size:34px}.project-details .audit-table{overflow-wrap:anywhere}.case-summary>div{padding:17px}}
+
+/* Minimal presentation: project, tests, evidence. */
+.minimal-page .hero{min-height:0;padding:120px 0 30px}
+.minimal-page .hero-h1{font-size:clamp(42px,6vw,70px)}
+.minimal-page .hero-copy{max-width:55ch}
+.minimal-page #about{padding:30px 0;border-block:1px solid var(--border)}
+.minimal-page #about h2{font-size:24px;margin-bottom:12px}
+.about-short{max-width:80ch;margin-bottom:16px;color:var(--muted)}
+.minimal-page .work-card-body{padding:24px;display:block}
+.minimal-page .work-card h3{font-size:24px;margin:10px 0}
+.project-number,.project-tools{font:12px/1.6 var(--font-mono);color:var(--muted)}
+.minimal-page .project-tools{margin:16px 0}
+.supporting-links{border-top:1px solid var(--border);margin-top:28px;padding-top:18px;display:grid;gap:12px}
+.supporting-links span{color:var(--muted);margin-right:12px}
+.minimal-page .case-main{padding-top:105px}
+.minimal-page .case-main>.container{max-width:980px}
+.minimal-page .case-header{padding:22px 0 0;margin-bottom:24px}
+.minimal-page .cs-title{font-size:clamp(30px,4vw,44px)}
+.minimal-page .cs-subhead{font-size:17px;max-width:70ch}
+.minimal-page .cs-sub{margin-top:30px;padding:0}
+.minimal-page .cs-sub h2{font-size:23px;margin-bottom:14px}
+.minimal-page .evidence-links{gap:12px 24px;margin:18px 0;flex-wrap:wrap}
+.table-scroll{max-width:100%;overflow-x:auto}
+.minimal-page .audit-table{width:100%}
+.minimal-page .audit-table th,.minimal-page .audit-table td{padding:12px 14px;vertical-align:top;white-space:normal;overflow-wrap:anywhere}
+.minimal-page .test-caption{color:var(--muted);font-size:13px;margin:10px 0}
+.minimal-page .scope-limits{margin-top:32px}
+.scope-limits ul{padding:8px 24px 18px 36px;color:var(--muted)}
+.scope-limits li{margin:10px 0}
+.finding-flow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;list-style:none;padding:0;margin:18px 0}
+.finding-flow li{border:1px solid var(--border);padding:16px;font-weight:600}
+.finding-flow li:last-child{border-color:#df9e74;color:#efb995}
+.minimal-figure{max-width:620px;margin:20px 0}
+.minimal-figure img{max-width:100%;height:auto;border:1px solid var(--border)}
+.minimal-figure figcaption{font-size:13px;color:var(--muted)}
+.minimal-page .cs-nav{margin-top:32px;padding-top:20px}
+@media(max-width:620px){.minimal-page .hero{padding-top:100px}.minimal-page .case-main{padding-top:85px}.minimal-page .work-card-body{padding:20px}.finding-flow{grid-template-columns:1fr}.finding-flow li{padding:12px}.minimal-page .audit-table th,.minimal-page .audit-table td{padding:10px;font-size:13px}.minimal-page .cs-title{font-size:30px}.minimal-page .code-card-header{max-width:100%}}
+.minimal-page .audit-table{min-width:0;table-layout:fixed}
+.minimal-page .audit-table th:first-child{width:30%}
+.minimal-page .scope-limits{scroll-margin-top:110px}
+.minimal-page .lab-module{padding:28px 0}
+
+/* Contact links belong with the restored biography. */
+.about-contact-links{display:flex;flex-wrap:wrap;gap:16px 26px;margin-top:22px}
+.about-contact-links a{display:inline-flex;align-items:center;gap:9px}
+.about-contact-links svg{flex:none}
+.minimal-page #about .about-cols{margin-top:28px}
+
+/* Project preview backgrounds keep the concise cards readable. */
+.minimal-page .preview-card{position:relative;isolation:isolate;overflow:hidden;background:#101210}
+.preview-card::before{content:"";position:absolute;inset:0;z-index:-2;background-image:var(--project-preview);background-size:cover;background-position:center;opacity:.6;transition:transform .25s ease}
+.preview-card::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(100deg,rgba(5,8,7,.94),rgba(5,8,7,.78))}
+.preview-card:hover::before{transform:scale(1.025)}
+.preview-card .work-card-body{position:relative;z-index:1}
+.preview-card p,.preview-card .project-tools,.preview-card .project-number{color:#d6d3ca}
+@media(prefers-reduced-motion:reduce){.preview-card::before{transition:none}.preview-card:hover::before{transform:none}}

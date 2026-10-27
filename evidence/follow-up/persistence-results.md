@@ -1,10 +1,10 @@
 # Free Pipeline: local persistence regression
 
-This is a new AI-assisted portfolio follow-up, not a reconstruction of the original production retest.
+This is a saved AI-assisted portfolio follow-up, not a reconstruction of the original production retest.
 
 ## Result
 
-- Current uploaded source: **3 passed**.
+- Earlier reviewed source snapshot: **3 passed**. This is not a rerun of the latest application.
 - Valid submission: HTTP 201, success true, one committed database row, expected field values and a saved CV file.
 - Missing email: HTTP 400, email validation error, no database record.
 - Missing CV: HTTP 400, CV validation error, no database record.

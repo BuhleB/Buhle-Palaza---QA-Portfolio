@@ -117,7 +117,7 @@ var EVIDENCE = {
       "title": "Forgot Password ROI — homepage",
       "description": "The application introduces its advertising, lead-generation and reporting features, with registration and login entry points.",
       "source": "real",
-      "asset": "images/loomee/lm-home.png",
+      "asset": "images/loomee/lm-home.webp",
       "tags": [
         "Application",
         "Navigation"
@@ -129,7 +129,7 @@ var EVIDENCE = {
       "title": "Advertisement display",
       "description": "A product advertisement appears after the user selects forgot password. A Skip control continues the journey.",
       "source": "real",
-      "asset": "images/loomee/lm-advert.png",
+      "asset": "images/loomee/lm-advert.webp",
       "tags": [
         "User flow"
       ]
@@ -140,7 +140,7 @@ var EVIDENCE = {
       "title": "Conditional interest form",
       "description": "Selecting Yes reveals a purchase-date field. The completed example captures product interest, intended purchase date and a test email address.",
       "source": "real",
-      "asset": "images/loomee/lm-interest.png",
+      "asset": "images/loomee/lm-interest.webp",
       "tags": [
         "Dynamic forms",
         "Input handling"
@@ -152,7 +152,7 @@ var EVIDENCE = {
       "title": "Stored interest record",
       "description": "A saved example record shows product interest, purchase date and a test email address. This is a captured record, rather than a live database view.",
       "source": "real",
-      "asset": "images/loomee/lm-database.png",
+      "asset": "images/loomee/lm-database.webp",
       "tags": [
         "MySQL",
         "Persistence"
@@ -164,7 +164,7 @@ var EVIDENCE = {
       "title": "Password-reset request confirmation",
       "description": "The recovery screen displays confirmation that a password-reset link has been emailed.",
       "source": "real",
-      "asset": "images/loomee/lm-reset-request.png",
+      "asset": "images/loomee/lm-reset-request.webp",
       "tags": [
         "Password recovery",
         "Feedback"
@@ -176,7 +176,7 @@ var EVIDENCE = {
       "title": "New-password form",
       "description": "The reset form contains email, password and password-confirmation fields. This view documents the interface before submission.",
       "source": "real",
-      "asset": "images/loomee/lm-reset-form.png",
+      "asset": "images/loomee/lm-reset-form.webp",
       "tags": [
         "Authentication",
         "Forms"
@@ -188,7 +188,7 @@ var EVIDENCE = {
       "title": "Client and server validation",
       "description": "JavaScript checks the interest form before submission; Laravel FormRequest rules validate submitted values on the server.",
       "source": "real",
-      "asset": "images/loomee/lm-validation.png",
+      "asset": "images/loomee/lm-validation.webp",
       "tags": [
         "Laravel",
         "Validation"
@@ -449,10 +449,10 @@ var QA_LAB = {
       "id": "BUG-MK-001",
       "title": "FREE PIPELINE SUBMISSIONS NOT PERSISTED TO DATABASE",
       "source": "real",
-      "severity": "Critical",
-      "priority": "Critical",
+      "severity": "High (proposed)",
+      "priority": "High (proposed)",
       "environment": "Production — Render / PostgreSQL",
-      "status": "Save calls added",
+      "status": "Save calls added; production retest not attached",
       "description": "I found that uploads and notification emails succeeded while the Free Talent Pipeline submission was missing from the admin list.",
       "steps": [
         "Submit the Free Pipeline Membership form with a valid CV upload",
