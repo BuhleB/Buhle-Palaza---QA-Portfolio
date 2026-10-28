@@ -910,7 +910,7 @@ body {
 @media(max-width:620px){.work-code{height:180px;min-height:0}.project-detail-body{padding-inline:0}.case-page .cs-title{font-size:34px}.project-details .audit-table{overflow-wrap:anywhere}.case-summary>div{padding:17px}}
 
 /* Minimal presentation: project, tests, evidence. */
-.minimal-page .hero{min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:120px 0 40px}
+.minimal-page .hero{padding:120px 0 40px}
 .minimal-page .hero-h1{font-size:clamp(42px,6vw,70px)}
 .minimal-page .hero-copy{max-width:55ch}
 .minimal-page #about{padding:30px 0;border-block:1px solid var(--border)}
@@ -970,3 +970,11 @@ body {
 /* Three distinct featured projects; one Selenium showcase. */
 .home-page .work-grid.featured-three{grid-template-columns:repeat(3,minmax(0,1fr))}
 @media(max-width:1050px){.home-page .work-grid.featured-three{grid-template-columns:1fr}}
+
+/* Fill the browser viewport, allowing extra height on short screens. */
+.home-page.minimal-page .hero{
+ min-height:100vh;
+ min-height:100dvh;
+ display:flex;
+ align-items:center;
+}
