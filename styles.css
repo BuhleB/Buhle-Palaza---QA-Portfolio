@@ -377,3 +377,12 @@ footer .container{padding-block:32px}
 /* Profile photo rings back to black */
 .logo img{box-shadow:0 0 0 2px var(--dui-white),0 0 0 3.5px var(--dui-black)}
 .about-photo{box-shadow:0 0 0 8px var(--dui-white),0 0 0 14px var(--dui-black)}
+
+/* Location sits under the About photo */
+.about-photo-wrap{display:flex;flex-direction:column;align-items:center;width:200px;gap:10px}
+.about-photo-wrap .about-photo{margin:8px}
+.about-location{font-size:.8125rem;line-height:1.4;color:var(--dui-grey-600);text-align:center;margin:8px 0 0}
+@media(max-width:800px){.about-photo-wrap{width:auto;align-items:flex-start}.about-location{text-align:left}}
+.about-photo-wrap{width:220px}
+.about-location{font-size:.75rem;white-space:nowrap}
+@media(max-width:800px){.about-photo-wrap{width:auto}.about-location{white-space:normal}}
