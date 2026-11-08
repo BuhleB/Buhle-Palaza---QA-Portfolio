@@ -373,3 +373,7 @@ footer .container{padding-block:32px}
 .nav-links a:nth-child(1),.mobile-menu-links a:nth-child(1){--bar:var(--dui-ring-3)}
 .nav-links a:nth-child(2),.mobile-menu-links a:nth-child(2){--bar:var(--dui-ring-1)}
 .nav-links a:nth-child(3),.mobile-menu-links a:nth-child(3){--bar:var(--dui-ring-2)}
+
+/* Profile photo rings back to black */
+.logo img{box-shadow:0 0 0 2px var(--dui-white),0 0 0 3.5px var(--dui-black)}
+.about-photo{box-shadow:0 0 0 8px var(--dui-white),0 0 0 14px var(--dui-black)}
