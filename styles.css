@@ -386,3 +386,27 @@ footer .container{padding-block:32px}
 .about-photo-wrap{width:220px}
 .about-location{font-size:.75rem;white-space:nowrap}
 @media(max-width:800px){.about-photo-wrap{width:auto}.about-location{white-space:normal}}
+
+/* Mobile: hero fills exactly one screen below the nav; tighter rhythm elsewhere */
+@media(max-width:800px){
+  .hero{min-height:100vh;min-height:100svh;padding:64px 0 0;display:flex;align-items:center;box-sizing:border-box}
+  .hero .container{padding-block:32px}
+  .hero-h1{font-size:clamp(2.5rem,13vw,3.5rem)}
+  .hero-tagline{font-size:1.125rem}
+  .hero-copy{font-size:1rem;margin-top:16px}
+  .hero-skills{margin-top:22px}
+  .hero-actions{margin-top:28px;width:100%}
+  section{padding:64px 0}
+  .case-main{padding-top:88px}
+  .about-photo{width:150px;height:150px}
+  .section-head h2,h2{font-size:clamp(2rem,9vw,2.5rem)}
+  .tc-item summary{padding:14px 16px}
+  .evidence-links,.cs-links{gap:8px 20px}
+  .cs-nav{flex-direction:column;align-items:flex-start}
+  .code-card .code-card-editor{padding-left:44px;font-size:12px}
+}
+@media(max-height:560px) and (max-width:800px){.hero-skills{display:none}}
+@media(max-width:800px){
+  .about-photo-wrap .about-photo{margin:12px 12px 12px 16px;box-shadow:0 0 0 6px var(--dui-white),0 0 0 11px var(--dui-black)}
+  .about-photo-wrap{align-items:flex-start}
+}
