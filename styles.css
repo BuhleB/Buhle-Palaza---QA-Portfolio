@@ -418,3 +418,11 @@ footer .container{padding-block:32px}
   .about-photo-wrap .about-photo{margin:12px}
   .about-location{text-align:center}
 }
+
+/* Floating WhatsApp button, bottom right */
+.wa-float{position:fixed;right:max(20px,env(safe-area-inset-right));bottom:max(20px,env(safe-area-inset-bottom));z-index:30;display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 24px;border-radius:var(--dui-radius-pill);background:var(--dui-black);color:var(--dui-white);font:600 .9375rem var(--dui-font);box-shadow:0 6px 24px rgba(0,0,0,.18);transition:opacity var(--dui-dur-fast) var(--dui-ease),transform var(--dui-dur-fast) var(--dui-ease)}
+.wa-float:hover{opacity:.85}
+.wa-float:active{transform:scale(.98)}
+.wa-float:focus-visible{outline:2px solid var(--dui-black);outline-offset:3px}
+@media(max-width:560px){.wa-float{padding:0 20px;min-height:48px;right:16px;bottom:16px}}
+@media print{.wa-float{display:none}}
